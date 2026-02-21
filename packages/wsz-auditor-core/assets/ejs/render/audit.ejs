@@ -1,0 +1,45 @@
+您所审计的工程总共有 **<%- audit.metadata.totalRecord.total %>** 个风险漏洞。
+
+其中：
+
+- **<%- desc.severityLevels.critical %>漏洞**：共计 **<%- audit.metadata.totalRecord.critical %>** 个
+- **<%- desc.severityLevels.high %>漏洞**：共计 **<%- audit.metadata.totalRecord.high %>** 个
+- **<%- desc.severityLevels.moderate %>漏洞**：共计 **<%- audit.metadata.totalRecord.moderate %>** 个
+- **<%- desc.severityLevels.low %>漏洞**：共计 **<%- audit.metadata.totalRecord.low %>** 个
+
+<% const directPkgs = audit.metadata.directPkgsTotalRecord; %>
+<% if (Object.keys(directPkgs).length > 0) { %>
+
+这些直接声明的包中的漏洞数量为：
+
+| 包名 | 严重 | 高危 | 中危 | 低危 |
+| --- | --- | --- | --- | --- |
+<% for (const pkgName in directPkgs) { if (Object.hasOwnProperty.call(directPkgs, pkgName)) {%>| **<%- pkgName %>** | <%- directPkgs[pkgName].critical %> | <%- directPkgs[pkgName].high %> | <%- directPkgs[pkgName].moderate %> | <%- directPkgs[pkgName].low %> |<% } %>
+<% } %>
+<% } %>
+
+
+> 漏洞等级说明：
+> 
+> - **<%- desc.severityLevels.critical %>**漏洞被认为是极其严重的，应该立即修复。
+> - **<%- desc.severityLevels.high %>**漏洞被认为是严重的，应该尽快修复。
+> - **<%- desc.severityLevels.moderate %>**漏洞被认为是中等严重的，可以选择在时间允许时修复。
+> - **<%- desc.severityLevels.low %>**漏洞被认为是轻微的，可以根据自行需要进行修复。
+>
+> [说明](https://docs.npmjs.com/about-audit-reports#severity)
+
+<% if (audit.metadata.totalRecord.critical) { %>
+<%- include('./detail.ejs', {type:'critical'}); %>
+<% } %>
+<% if (audit.metadata.totalRecord.high) { %>
+<%- include('./detail.ejs', {type:'high'}); %>
+<% } %>
+<% if (audit.metadata.totalRecord.moderate) { %>
+<%- include('./detail.ejs', {type:'moderate'}); %>
+<% } %>
+<% if (audit.metadata.totalRecord.low) { %>
+<%- include('./detail.ejs', {type:'low'}); %> 
+<% } %>
+
+References:
+- [npm-audit-report](https://docs.npmjs.com/about-audit-reports)

@@ -1,0 +1,7 @@
+## <%-desc.severityLevels[type] %>漏洞
+
+共计 **<%- audit.metadata.totalRecord[type] %>** 个
+
+<% audit.vulnSortBySeverity[type].forEach(function(item){ %>
+<%- include('./detail-item.ejs', {item: item}) %>
+<% }); %>

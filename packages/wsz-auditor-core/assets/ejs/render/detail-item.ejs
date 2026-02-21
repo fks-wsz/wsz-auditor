@@ -1,0 +1,16 @@
+---
+<% 
+const isMetavuln = item.problem && item.chain
+const advisory = isMetavuln ? item.problem : item
+const chain = isMetavuln ? item.chain : []
+%>
+### <%- advisory.title %>
+
+| 字段 | 详情 |
+| --- | --- |
+| **漏洞来源包** | `<%- advisory.name %>` |
+<%if(isMetavuln){%>| **依赖链条** | `<%- chain.join(' → ') %>` |<%}%>| **受影响版本** | `<%- advisory.range %>` |
+| **CWE 分类** | <%- advisory.cwe.join('、') %> |
+| **CVSS 评分** | <%- advisory.cvss.score %> |
+| **CVSS 向量** | `<%- advisory.cvss.vectorString %>` |
+| **详情链接** | [<%- advisory.url %>](<%- advisory.url %>) |

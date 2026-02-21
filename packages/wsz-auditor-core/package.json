@@ -1,0 +1,32 @@
+{
+  "name": "wsz-auditor-core",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "dev": "npm run clean && tsc -b --watch --sourceMap --declarationMap",
+    "prebuild": "npm run clean",
+    "build": "tsc -b",
+    "start:dev": "dotenvx run -f .env.development -- nodemon ./dist/main.js -w ./dist -d 2",
+    "start": "dotenvx run -f .env.production -- node ./dist/main.js"
+  },
+  "keywords": [],
+  "author": "wsz",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/node": "^22.19.11",
+    "@types/npmcli__arborist": "^6.3.1",
+    "nodemon": "^3.1.11",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "wsz-auditor-shared": "workspace:*",
+    "@dotenvx/dotenvx": "^1.52.0",
+    "ejs": "^3.1.10"
+  }
+}

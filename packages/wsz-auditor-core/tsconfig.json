@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "references": [{ "path": "../shared" }],
+  "compilerOptions": {
+    "module": "node20",
+    "moduleResolution": "node16",
+    "lib": ["ES2020"],
+
+    "outDir": "./dist",
+    "declarationDir": "./dist/types",
+    "tsBuildInfoFile": "./.tsbuildinfo"
+  },
+  "include": ["./src/**/*.ts", "global.d.ts"]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "wsz-auditor-web",
+  "version": "1.0.0",
+  "description": "Web UI for npm dependency security audit visualization",
+  "private": true,
+  "scripts": {
+    "build:client": "webpack --config webpack.config.client.js",
+    "build:server": "webpack --config webpack.config.server.js",
+    "build": "npm run build:client && npm run build:server",
+    "dev:client": "webpack --config webpack.config.client.js --watch --env VUE_ENV=client",
+    "dev:server": "webpack --config webpack.config.server.js --watch --env VUE_ENV=server",
+    "dev": "dotenvx run -f .env.development -- concurrently \"npm:dev:*\"",
+    "start": "node ./dist/main.js",
+    "start:dev": "nodemon --watch dist ./dist/main.js"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
+    "express": "^4.18.2",
+    "vue": "^2.7.16",
+    "vue-server-renderer": "^2.7.16"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.19.11",
+    "@types/webpack": "^5.28.5",
+    "@types/webpack-node-externals": "^3.0.4",
+    "autoprefixer": "^10.4.17",
+    "concurrently": "^9.2.1",
+    "css-loader": "^6.10.0",
+    "mini-css-extract-plugin": "^2.8.0",
+    "nodemon": "^3.0.3",
+    "null-loader": "^4.0.1",
+    "postcss": "^8.4.35",
+    "postcss-loader": "^8.1.0",
+    "postcss-preset-env": "^9.3.0",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vue-loader": "^15.11.1",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

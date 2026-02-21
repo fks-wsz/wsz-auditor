@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    // 语法
+    "target": "es2020",
+
+    // 模块
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+
+    // 类型检查
+    "strict": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // 输出
+    "declaration": true,
+    "outDir": "./dist",
+    "paths": {
+      "wsz-auditor-shared": ["./packages/shared/src/index.ts"],
+      "wsz-auditor-shared/*": ["./packages/shared/src/*/index.ts"]
+    },
+
+    // 其他
+    "pretty": true
+  }
+}

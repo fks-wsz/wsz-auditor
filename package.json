@@ -1,0 +1,25 @@
+{
+  "name": "wsz-auditor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev:web": "npm run dev -w packages/wsz-auditor-web",
+    "dev:core": "npm run dev -w packages/wsz-auditor-core",
+    "dev": "concurrently \"npm:dev:*\"",
+    "build:core": "npm run build -w packages/wsz-auditor-core",
+    "start:dev:web": "npm run start:dev -w packages/wsz-auditor-web",
+    "start:dev:core": "npm run start:dev -w packages/wsz-auditor-core",
+    "start:core": "npm run start -w packages/wsz-auditor-core"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "keywords": [],
+  "author": "wsz",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "rimraf": "^6.1.3"
+  }
+}

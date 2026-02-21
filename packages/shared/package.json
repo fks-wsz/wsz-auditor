@@ -1,0 +1,35 @@
+{
+  "name": "wsz-auditor-shared",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./node": {
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.js",
+      "types": "./dist/types/node/index.d.ts"
+    },
+    "./common": {
+      "import": "./dist/common/index.js",
+      "require": "./dist/common/index.js",
+      "types": "./dist/types/common/index.d.ts"
+    },
+    "./error": {
+      "import": "./dist/error/index.js",
+      "require": "./dist/error/index.js",
+      "types": "./dist/types/error/index.d.ts"
+    }
+  },
+  "keywords": [],
+  "author": "wsz",
+  "license": "MIT",
+  "description": ""
+}
