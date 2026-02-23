@@ -3,7 +3,7 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec); // 将 exec 转换为返回 Promise 的函数
 
-async function runCommand(cmd: string, cwd: string) {
+async function runCommand(cmd: string, cwd?: string) {
   try {
     const stdout = await execAsync(cmd, {
       cwd,

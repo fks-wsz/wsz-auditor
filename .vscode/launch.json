@@ -5,11 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch via NPM",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "request": "attach",
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}/packages/wsz-auditor-web/dist"
+    },
+    {
+      "name": "web",
       "request": "launch",
-      "runtimeArgs": ["run", "dev"],
+      "type": "chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/packages/wsz-auditor-web/dist"
+    },
+    {
+      "name": "core",
+      "request": "launch",
+      "runtimeArgs": ["run", "start:dev:core"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
       "type": "node"
     }
   ]

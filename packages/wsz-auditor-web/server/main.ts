@@ -1,42 +1,27 @@
 import express from 'express';
-import { resolve } from 'path';
-import { renderPage, initRenderer } from './renderer';
+import { DIST_PATH, PUBLIC_PATH, TEMP_PATH } from '../shared/path';
+import { renderPage, initRenderer, initRendererDevOnly } from './renderer';
+import setupDevServer from '../build/setup-dev-server';
+import { join } from 'path';
+import open from 'open';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 静态资源服务
-app.use(express.static(resolve(__dirname, '../public')));
+app.use(express.static(PUBLIC_PATH));
+app.use(express.static(DIST_PATH));
 
-// 初始化渲染器
-initRenderer();
+let devServerReadyPromise: Promise<void>;
 
-/**
- * 获取审计数据（示例）
- */
-// async function getAuditData(projectPath) {
-//   try {
-//     // 创建工作目录
-//     const workDir = await createWorkDir();
-//     // 解析项目
-//     const packageJsonObj = await parseProject(projectPath);
-//     // 生成 lock 文件
-//     await generateLock(workDir, packageJsonObj);
-//     // 执行审计
-//     const normalizedAuditRes = await audit(workDir, packageJsonObj);
-
-//     return {
-//       auditResult: normalizedAuditRes,
-//       packageInfo: packageJsonObj,
-//     };
-//   } catch (error) {
-//     console.error('Audit error:', error);
-//     return {
-//       auditResult: { vulnerabilities: {}, summary: { total: 0, critical: 0, high: 0, moderate: 0, low: 0 } },
-//       packageInfo: { name: 'Unknown', version: '0.0.0' },
-//     };
-//   }
-// }
+if (__DEV__) {
+  devServerReadyPromise = setupDevServer(app, join(PUBLIC_PATH, 'index.template.html'), (devServerContext) => {
+    initRendererDevOnly(devServerContext);
+  });
+} else {
+  // 初始化渲染器
+  initRenderer();
+}
 
 export interface RenderContext {
   url: string;
@@ -46,7 +31,7 @@ export interface RenderContext {
 
 // SSR 路由
 app.get('/home', async (req, res) => {
-  const projectPath = process.env.AUDIT_PROJECT_PATH || '../../test/local-4';
+  // const projectPath = getAbsolutePath('../../../test/local-2');
   const data = {};
 
   const context: RenderContext = {
@@ -54,10 +39,20 @@ app.get('/home', async (req, res) => {
     title: 'NPM 依赖安全审计分析',
     state: data,
   };
-
-  await renderPage(req, res, context);
+  if (__DEV__) {
+    await devServerReadyPromise;
+  }
+  await renderPage(res, context);
 });
 
 app.listen(PORT, () => {
+  if (__DEV__) {
+    open(`http://localhost:${PORT}`, {
+      app: {
+        name: 'chrome',
+        arguments: ['--remote-debugging-port=9222', `--user-data-dir=${join(TEMP_PATH, '.chrome')}`],
+      },
+    });
+  }
   console.log(`Server running at http://localhost:${PORT}`);
 });

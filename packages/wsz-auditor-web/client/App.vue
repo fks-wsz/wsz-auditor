@@ -12,7 +12,8 @@
 
     <!-- 主内容 -->
     <main class="main-content">
-      <AuditDashboard />
+      <LandingPage v-if="state.currentView === 'home'" />
+      <AuditDashboard v-else />
     </main>
   </div>
 </template>
@@ -21,6 +22,8 @@
 import Vue from 'vue';
 import AuditDashboard from './components/AuditDashboard.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
+import LandingPage from './components/LandingPage.vue';
+import { useState } from '../shared/store';
 
 export default Vue.extend({
   name: 'App',
@@ -28,6 +31,13 @@ export default Vue.extend({
   components: {
     AuditDashboard,
     ThemeToggle,
+    LandingPage,
+  },
+
+  data() {
+    return {
+      state: useState(),
+    };
   },
 });
 </script>

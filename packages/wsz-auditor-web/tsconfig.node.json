@@ -1,11 +1,22 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
+  "references": [{ "path": "../shared" }],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
 
     "outDir": "./dist/server",
-    "declarationDir": "./dist/types/server"
+    "declarationDir": "./dist/types/server",
+
+    "sourceMap": true,
+    "composite": true
   },
-  "include": ["./server/**/*", "./types/**/*"]
+  "include": [
+    "./server/**/*.ts",
+    "./types/**/*.ts",
+    "./client/**/*.vue",
+    "./shared/**/*.ts",
+    "./build/setup-dev-server.ts",
+    "./build/**/*.js"
+  ]
 }

@@ -1,9 +1,10 @@
 import { createBundleRenderer } from 'vue-server-renderer';
 import type { BundleRenderer } from 'vue-server-renderer';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-import { Request, Response } from 'express-serve-static-core';
+import { getFileContent, getJsonFileContent } from 'wsz-auditor-shared/node';
+import { Response } from 'express-serve-static-core';
 import { RenderContext } from './main.js';
+import { join } from 'path';
+import { DIST_PATH, PUBLIC_PATH } from '../shared/path';
 
 let renderer: null | BundleRenderer = null;
 
@@ -11,13 +12,11 @@ let renderer: null | BundleRenderer = null;
  * 初始化 Vue SSR 渲染器
  */
 export async function initRenderer() {
-  const template = readFileSync(resolve(__dirname, './index.template.html'), 'utf-8');
-  const serverBundle = JSON.parse(
-    readFileSync(resolve(__dirname, '../dist/server/vue-ssr-server-bundle.json'), 'utf-8'),
-  );
-  const clientManifest = JSON.parse(
-    readFileSync(resolve(__dirname, '../dist/client/vue-ssr-client-manifest.json'), 'utf-8'),
-  );
+  if (renderer) return renderer;
+
+  const template = await getFileContent(join(PUBLIC_PATH, 'index.template.html'));
+  const serverBundle = await getJsonFileContent(join(DIST_PATH, './server/vue-ssr-server-bundle.json'));
+  const clientManifest = await getJsonFileContent(join(DIST_PATH, './client/vue-ssr-client-manifest.json'));
 
   renderer = createBundleRenderer(serverBundle, {
     template,
@@ -28,10 +27,21 @@ export async function initRenderer() {
   return renderer;
 }
 
+export function initRendererDevOnly({ clientManifest, serverBundle, templateStr }: any) {
+  if (renderer) return renderer;
+  renderer = createBundleRenderer(serverBundle, {
+    template: templateStr,
+    clientManifest,
+    runInNewContext: false,
+  });
+
+  return renderer;
+}
+
 /**
  * 渲染页面
  */
-export async function renderPage(req: Request, res: Response, context: RenderContext) {
+export async function renderPage(res: Response, context: RenderContext) {
   if (!renderer) {
     renderer = await initRenderer();
   }
@@ -43,6 +53,7 @@ export async function renderPage(req: Request, res: Response, context: RenderCon
         return res.status(500).send('Internal Server Error');
       }
       res.end(html);
+      return null;
     });
   } catch (err) {
     console.error('SSR render error:', err);

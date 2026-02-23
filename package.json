@@ -7,9 +7,10 @@
     "dev:core": "npm run dev -w packages/wsz-auditor-core",
     "dev": "concurrently \"npm:dev:*\"",
     "build:core": "npm run build -w packages/wsz-auditor-core",
-    "start:dev:web": "npm run start:dev -w packages/wsz-auditor-web",
+    "build:web": "npm run build -w packages/wsz-auditor-web",
     "start:dev:core": "npm run start:dev -w packages/wsz-auditor-core",
-    "start:core": "npm run start -w packages/wsz-auditor-core"
+    "start:core": "npm run start -w packages/wsz-auditor-core",
+    "start:web": "npm run start -w packages/wsz-auditor-web"
   },
   "workspaces": [
     "packages/*"

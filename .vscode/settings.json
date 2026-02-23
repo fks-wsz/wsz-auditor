@@ -1,3 +1,91 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  /*--------------------------------------
+    ---------- VSCode Config -------------
+    ---------- editor: wsz ---------------
+    -------------------------------------- */
+
+  /*--------------------------------------
+    -------------- Editor ----------------
+    -------------------------------------- */
+  "editor.tabSize": 2, // tab 缩进
+  "editor.fontSize": 16, // 字体大小
+  "editor.fontWeight": "normal", // 字体粗细
+  "editor.fontFamily": "'JetBrains Mono'", // 字体1
+  "editor.codeLensFontFamily": "'JetBrains Mono'", // 字体2
+  "editor.formatOnPaste": true, // 粘贴时格式化
+  "editor.formatOnSave": true, // 保存时格式化
+  "editor.formatOnType": false, // 输入时格式化
+  "editor.codeActionsOnSave": {
+    // 保存时自动修复
+    "source.organizeImports": "never" // 删除无用 import
+  },
+  "editor.bracketPairColorization.enabled": true, // 括号匹配
+  "editor.guides.bracketPairs": true, // 括号匹配
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // 默认格式化工具
+  "editor.tabCompletion": "on", // tab 补全
+  "editor.cursorStyle": "block", // 光标样式
+  "editor.cursorBlinking": "smooth", // 光标闪烁丝滑
+  "editor.cursorSmoothCaretAnimation": "on", // 光标移动丝滑
+  "editor.mouseWheelZoom": true, // 鼠标滚轮缩放
+  "editor.smoothScrolling": true, // 平滑滚动
+  "editor.stickyScroll.enabled": false, // 在顶部显示当前作用域
+  "editor.minimap.size": "proportional", // 缩略图大小
+  "editor.accessibilitySupport": "off", // 辅助功能支持
+  "editor.renderWhitespace": "boundary", // 显示空格和制表符
+  "editor.wordWrap": "on",
+  "diffEditor.ignoreTrimWhitespace": true,
+
+  /*--------------------------------------
+    -------------- Prettier --------------
+    -------------------------------------- */
+  "prettier.enable": true, // 启用 prettier
+  "prettier.printWidth": 120, // 单行最大长度
+  "prettier.tabWidth": 2, // tab 缩进
+  "prettier.semi": true, // 末尾分号
+  "prettier.trailingComma": "all", // 尾随逗号
+  "prettier.singleQuote": true, // 单引号
+  "prettier.useTabs": false, // 使用tab 缩进
+  "prettier.quoteProps": "as-needed", // 对象属性引号
+  "prettier.bracketSpacing": true, // 对象大括号间距
+  "prettier.jsxSingleQuote": true, // jsx 单引号
+  "prettier.arrowParens": "always", // 箭头函数参数括号
+  "prettier.bracketSameLine": true, // html 标签闭合括号位置
+  "prettier.vueIndentScriptAndStyle": false, // vue script/style 缩进
+  "prettier.embeddedLanguageFormatting": "auto", // 格式化内嵌代码
+  "prettier.proseWrap": "preserve", // markdown 换行方式
+  "prettier.htmlWhitespaceSensitivity": "strict", // html 空格敏感度
+
+  /*--------------------------------------
+  ------------- Terminal ---------------
+  -------------------------------------- */
+  "terminal.integrated.fontSize": 14, // 终端字体大小
+  "terminal.integrated.cursorStyleInactive": "block", // 非活动终端光标样式
+  "terminal.integrated.cursorBlinking": true, // 光标闪烁
+  "terminal.integrated.fontWeight": "normal", // 终端字体粗细
+  "terminal.integrated.smoothScrolling": true, // 终端平滑滚动
+  "terminal.integrated.stickyScroll.enabled": false, // 终端顶部显示当前作用域
+  "terminal.integrated.defaultProfile.windows": "PowerShell", // win默认终端配置
+  "terminal.integrated.scrollback": 16384, // 终端滚动缓冲区大小
+  "terminal.integrated.accessibleViewPreserveCursorPosition": true, // 保持终端光标位置
+
+  /*--------------------------------------
+    ------ JavaScript + TypeSciript ------
+    -------------------------------------- */
+  "javascript.updateImportsOnFileMove.enabled": "always", // 移动文件时更新导入
+  "javascript.format.enable": false, // 启用 JS 格式化
+  "javascript.validate.enable": true, // 启用javascript 验证
+  "javascript.inlayHints.parameterNames.enabled": "none", // 启用参数名提示
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true, // 启用函数返回值类型提示
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true, // 启用属性声明隐式类型提示(多用于类)
+  "javascript.inlayHints.parameterTypes.enabled": false, // 启用隐式参数类型提示(多用于函数)
+  "typescript.updateImportsOnFileMove.enabled": "always", // 移动文件时更新导入
+  "typescript.locale": "zh-CN",
+  "typescript.enablePromptUseWorkspaceTsdk": true, // 启用询问是否使用工作区ts 版本提示
+  "typescript.tsdk": "node_modules\\typescript\\lib", // 指定 ts 版本
+  "js/ts.implicitProjectConfig.checkJs": false, // 启用 JS 检查
+
+  /*--------------------------------------
+    --------------- Debug ----------------
+    -------------------------------------- */
+  "debug.javascript.autoAttachFilter": "onlyWithFlag"
 }

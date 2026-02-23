@@ -4,12 +4,14 @@ export interface State {
   auditResult: any;
   packageInfo: any;
   theme: 'light' | 'dark';
+  currentView: 'home' | 'dashboard';
 }
 
 const state = Vue.observable<State>({
   auditResult: { vulnerabilities: {}, summary: { total: 0, critical: 0, high: 0, moderate: 0, low: 0 } },
   packageInfo: { name: '', version: '' },
   theme: 'light',
+  currentView: 'home',
 });
 
 export function useState() {
@@ -39,4 +41,8 @@ export function initTheme() {
     }
     document.documentElement.setAttribute('data-theme', state.theme);
   }
+}
+
+export function navigateTo(view: 'home' | 'dashboard') {
+  state.currentView = view;
 }

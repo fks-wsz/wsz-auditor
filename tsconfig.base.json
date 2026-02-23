@@ -6,6 +6,7 @@
     // 模块
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "allowJs": true,
 
     // 类型检查
     "strict": true,
@@ -14,6 +15,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "checkJs": false,
 
     // 输出
     "declaration": true,
