@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "references": [{ "path": "../shared" }],
+  "references": [{ "path": "../shared" }, { "path": "../wsz-auditor-core" }],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -8,8 +8,7 @@
     "outDir": "./dist/server",
     "declarationDir": "./dist/types/server",
 
-    "sourceMap": true,
-    "composite": true
+    "sourceMap": true
   },
   "include": [
     "./server/**/*.ts",

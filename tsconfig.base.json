@@ -19,10 +19,10 @@
 
     // 输出
     "declaration": true,
-    "outDir": "./dist",
     "paths": {
       "wsz-auditor-shared": ["./packages/shared/src/index.ts"],
-      "wsz-auditor-shared/*": ["./packages/shared/src/*/index.ts"]
+      "wsz-auditor-shared/*": ["./packages/shared/src/*/index.ts"],
+      "wsz-auditor-core": ["./packages/core/src/index.ts"]
     },
 
     // 其他

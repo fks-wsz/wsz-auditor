@@ -43,4 +43,4 @@ class Loading {
   }
 }
 
-export default Loading;
+export { Loading };

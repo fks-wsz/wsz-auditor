@@ -1,5 +1,4 @@
 import { NormalizedAuditResult, PackageJSON } from '../audit/types/index.js';
-import Loading from '../common/loading.js';
 import { renderMarkdown } from './markdown.js';
 import { RenderData, RenderDesc } from './types/index.js';
 
@@ -18,7 +17,6 @@ const desc: RenderDesc = {
  * @param {object} packageJsonObj 包的package.json内容
  */
 export async function render(normalizedAuditRes: NormalizedAuditResult, packageJsonObj: PackageJSON) {
-  Loading.updateMessage('生成审计报告中');
   const data: RenderData = {
     audit: normalizedAuditRes,
     desc,

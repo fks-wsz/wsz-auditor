@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 const path = require('path');
 const Webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsWebpackPlugin = require('tsconfig-paths-webpack-plugin');
 
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
@@ -37,6 +38,9 @@ exports.baseConfig = {
     extensions: ['.ts', '.js', '.vue', '.json'],
   },
   plugins: [
+    new TsconfigPathsWebpackPlugin({
+      configFile: path.resolve('./tsconfig.web.json'),
+    }),
     new VueLoaderPlugin(),
     new Webpack.DefinePlugin({
       __DEV__,

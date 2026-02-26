@@ -9,6 +9,7 @@
 
     <!-- 主题切换按钮 -->
     <ThemeToggle />
+    <ReturnHome />
 
     <!-- 主内容 -->
     <main class="main-content">
@@ -22,22 +23,40 @@
 import Vue from 'vue';
 import AuditDashboard from './components/AuditDashboard.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
+import ReturnHome from './components/ReturnHome.vue';
 import LandingPage from './components/LandingPage.vue';
 import { useState } from '../shared/store';
 
 export default Vue.extend({
   name: 'App',
 
+  provide: {
+    globalState: useState(),
+  },
   components: {
     AuditDashboard,
     ThemeToggle,
     LandingPage,
+    ReturnHome,
   },
 
   data() {
     return {
       state: useState(),
     };
+  },
+
+  mounted() {
+    // const eventSource = new EventSource('/api/audit-stream', {
+    //   withCredentials: true,
+    // });
+    // eventSource.addEventListener('progress', (event) => {
+    //   console.log(event.data);
+    // });
+    // eventSource.addEventListener('done', (event) => {
+    //   console.log(event.data);
+    //   eventSource.close();
+    // });
   },
 });
 </script>

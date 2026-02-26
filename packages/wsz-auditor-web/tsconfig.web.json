@@ -9,8 +9,7 @@
     "outDir": "./dist/client",
     "declarationDir": "./dist/types/client",
 
-    "sourceMap": true,
-    "composite": true
+    "sourceMap": true
   },
   "include": ["./client/**/*.ts", "./client/**/*.vue", "./types/**/*.ts", "./shared/**/*.ts"]
 }

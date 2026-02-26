@@ -4,13 +4,30 @@ import { renderPage, initRenderer, initRendererDevOnly } from './renderer';
 import setupDevServer from '../build/setup-dev-server';
 import { join } from 'path';
 import open from 'open';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const API_PORT = process.env.API_PORT || 3001;
 
 // 静态资源服务
 app.use(express.static(PUBLIC_PATH));
 app.use(express.static(DIST_PATH));
+
+if (__DEV__) {
+  // 开发环境：将 /api/* 请求代理到独立的 API 进程，避免修改 API 路由时重启 SSR 进程
+  app.use(
+    '/api',
+    createProxyMiddleware({
+      target: `http://localhost:${API_PORT}`,
+      changeOrigin: true,
+    }),
+  );
+} else {
+  // 生产环境：直接挂载 API 路由
+  const auditRouter = require('./router/audit').default;
+  app.use(auditRouter);
+}
 
 let devServerReadyPromise: Promise<void>;
 
@@ -29,9 +46,9 @@ export interface RenderContext {
   state: Record<keyof any, any>;
 }
 
+// await auditPackage(getAbsolutePath('../../../test/local-2'), getAbsolutePath('result.md'));
 // SSR 路由
 app.get('/home', async (req, res) => {
-  // const projectPath = getAbsolutePath('../../../test/local-2');
   const data = {};
 
   const context: RenderContext = {

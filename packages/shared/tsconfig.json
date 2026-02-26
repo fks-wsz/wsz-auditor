@@ -1,6 +1,5 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["./src/index.ts", "./src/**/*.ts"],
   "compilerOptions": {
     "module": "node20",
     "moduleResolution": "node16",
@@ -9,8 +8,9 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "declarationDir": "./dist/types",
-    "tsBuildInfoFile": "./.tsbuildinfo",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
 
     "composite": true
-  }
+  },
+  "include": ["src/**/*.ts"]
 }

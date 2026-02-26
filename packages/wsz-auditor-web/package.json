@@ -8,14 +8,19 @@
     "build:client": "webpack --config ./build/webpack.config.client.js",
     "build:server-bundle": "webpack --config ./build/webpack.config.server-bundle.js",
     "build:server": "webpack --config ./build/webpack.config.server.js",
+    "build:api-server": "webpack --config ./build/webpack.config.api-server.js",
+    "dev:server": "webpack --config ./build/webpack.config.server.js --watch",
+    "dev:api-server": "webpack --config ./build/webpack.config.api-server.js --watch",
+    "dev:api-nodemon": "nodemon --watch ./dist/api-server.js ./dist/api-server.js",
+    "dev:ssr-nodemon": "nodemon --watch ./dist/main.js --inspect=9229 ./dist/main.js",
     "prebuild": "npm run clean",
     "build": "dotenvx run -f .env.production -- concurrently \"npm:build:*\"",
     "start": "node ./dist/main.js",
-    "predev": "npm run clean",
-    "dev": "dotenvx run -f .env.development -- npm run build:server && node --inspect ./dist/main.js"
+    "dev": "dotenvx run -f .env.development -- concurrently -k -n ssr-wp,api-wp,ssr,api -c blue,green,cyan,yellow \"npm:dev:server\" \"npm:dev:api-server\" \"npm:dev:ssr-nodemon\" \"npm:dev:api-nodemon\""
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.52.0",
+    "chart.js": "^4.5.1",
     "express": "^4.18.2",
     "vue": "^2.7.16",
     "vue-server-renderer": "^2.7.16"
@@ -40,6 +45,7 @@
     "rimraf": "^6.1.3",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
+    "tsconfig-paths-webpack-plugin": "^4.2.0",
     "typescript": "^5.3.3",
     "vue-loader": "^15.11.1",
     "webpack": "^5.90.1",

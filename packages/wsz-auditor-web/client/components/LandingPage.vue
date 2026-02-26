@@ -4,7 +4,7 @@
       <!-- 装饰性圆角边框 -->
       <div class="landing-card__inner">
         <!-- 品牌标题 -->
-        <h1 class="landing-title">WSZ-Auditor</h1>
+        <h1 class="landing-title">WSZ-Auditor2</h1>
 
         <!-- 副标题 -->
         <h2 class="landing-subtitle">智能项目依赖安全审查工具</h2>

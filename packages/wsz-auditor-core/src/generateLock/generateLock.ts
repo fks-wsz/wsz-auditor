@@ -4,7 +4,6 @@ import { createJsonFile, getJsonFileContent, runCommand } from 'wsz-auditor-shar
 import { TEST_LOCK_FILE_PATH } from '../common/path.js';
 
 import type { PackageJSON } from '../audit/types/index.js';
-import Loading from '../common/loading.js';
 
 // 写入 package.json
 async function writePackageJson(workDir: string, packageJsonObj: PackageJSON) {
@@ -33,7 +32,6 @@ async function createLockFile(workDir: string) {
  * @param {Object} packageJsonObj package.json对象
  */
 export async function generateLock(workDir: string, packageJsonObj: PackageJSON) {
-  Loading.updateMessage('解析项目依赖中');
   // 1. 将 package.json 写入工作目录
   await writePackageJson(workDir, packageJsonObj);
   // 2. 生成 lock 文件

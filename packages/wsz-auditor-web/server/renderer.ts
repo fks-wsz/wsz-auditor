@@ -28,7 +28,6 @@ export async function initRenderer() {
 }
 
 export function initRendererDevOnly({ clientManifest, serverBundle, templateStr }: any) {
-  if (renderer) return renderer;
   renderer = createBundleRenderer(serverBundle, {
     template: templateStr,
     clientManifest,

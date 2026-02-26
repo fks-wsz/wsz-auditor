@@ -3,12 +3,24 @@
   "version": "1.0.0",
   "main": "main.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js",
+      "require": "./dist/main.js",
+      "types": "./dist/types/main.d.ts"
+    }
+  },
+  "files": [
+    "./dist/**/*",
+    "./assets/**/*",
+    "./global.d.ts"
+  ],
   "scripts": {
     "clean": "rimraf ./dist",
     "dev": "npm run clean && tsc -b --watch --sourceMap --declarationMap",
     "prebuild": "npm run clean",
     "build": "tsc -b",
-    "start:dev": "dotenvx run -f .env.development -- nodemon ./dist/main.js -w ./dist -d 2",
+    "start:dev": "dotenvx run -f .env.development -- nodemon ./dist/main.js -w ./dist -d 1",
     "start": "dotenvx run -f .env.production -- node ./dist/main.js"
   },
   "keywords": [],

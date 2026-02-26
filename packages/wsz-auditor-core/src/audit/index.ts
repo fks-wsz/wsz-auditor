@@ -4,7 +4,6 @@ import { normalizeAuditResult } from './normalizeAuditResult.js';
 import type { PackageJSON } from './types/index.js';
 import { join } from 'path';
 import { createJsonFile } from 'wsz-auditor-shared/node';
-import Loading from '../common/loading.js';
 
 /**
  * 审计项目
@@ -13,7 +12,6 @@ import Loading from '../common/loading.js';
  * @returns
  */
 export async function audit(workDir: string, packageJson: PackageJSON) {
-  Loading.updateMessage('审计项目中');
   // 调用 npm audit 获取审计结果
   const auditResult = await npmAudit(workDir);
   await createJsonFile(join(workDir, 'audit.json'), auditResult);
