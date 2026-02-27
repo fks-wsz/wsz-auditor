@@ -9,6 +9,7 @@
     "dev": "concurrently \"npm:dev:*\"",
     "build:core": "npm run build -w packages/wsz-auditor-core",
     "build:web": "npm run build -w packages/wsz-auditor-web",
+    "build:mcp-server": "npm run build -w packages/wsz-auditor-mcp-server",
     "start:dev:core": "npm run start:dev -w packages/wsz-auditor-core",
     "start:core": "npm run start -w packages/wsz-auditor-core",
     "start:web": "npm run start -w packages/wsz-auditor-web"

@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "references": [{ "path": "../wsz-auditor-core" }],
+  "compilerOptions": {
+    "module": "node20",
+    "moduleResolution": "node16",
+
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declarationDir": "./dist/types",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+
+    "declaration": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

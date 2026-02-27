@@ -9,22 +9,11 @@ import { assign, isPlainObject, isFunction } from 'wsz-auditor-shared/common';
 import { question, success } from './common/stdio.js';
 import { TEMP_DIR_PATH } from './common/path.js';
 import { join } from 'path';
-import { NormalizedAuditResult } from './audit/types/index.js';
 
-interface AuditPackageProcessHooks {
-  onInit?: () => void;
-  onParseProject?: () => void;
-  onAudit?: () => void;
-  onRender?: () => void;
-  onFinish?: (normalizedAuditResult: NormalizedAuditResult) => void;
-}
+import type { NormalizedAuditResult } from './audit/types/index.js';
+import type { AuditPackageOptions, AuditPackageProcessHooks } from './types/main.js';
 
-interface AuditPackageOptions {
-  renderReport: {
-    path: string;
-  } | null;
-  showLoading: boolean;
-}
+export type { AuditPackageOptions, AuditPackageProcessHooks, NormalizedAuditResult };
 
 const defaultAuditPackageOptions: AuditPackageOptions = {
   renderReport: null,
@@ -34,12 +23,12 @@ const defaultAuditPackageOptions: AuditPackageOptions = {
 async function auditPackage(
   projectPath: string,
   options?: AuditPackageOptions,
-  processCallbacks?: AuditPackageProcessHooks,
+  processHooks?: AuditPackageProcessHooks,
 ): Promise<NormalizedAuditResult>;
 
 async function auditPackage(
   projectPath: string,
-  processCallbacks?: AuditPackageProcessHooks,
+  processHooks?: AuditPackageProcessHooks,
 ): Promise<NormalizedAuditResult>;
 
 /**
@@ -47,12 +36,12 @@ async function auditPackage(
  * @param projectPath 项目根目录，可以是本地目录的绝对路径，也可以是远程仓库的URL
  * @param savePath 保存审计结果的文件名，审计结果是一个标准格式的markdown字符串
  * @param options 选项
- * @param processCallbacks 审计过程中的回调函数，可以在审计的不同阶段执行一些自定义的逻辑
+ * @param processHooks 审计过程中的回调函数，可以在审计的不同阶段执行一些自定义的逻辑
  */
 async function auditPackage(
   projectPath: string,
   optionsOrCallbacks?: AuditPackageOptions | AuditPackageProcessHooks,
-  processCallbacks?: AuditPackageProcessHooks,
+  processHooks?: AuditPackageProcessHooks,
 ) {
   // 参数归一化：当第二个参数是回调而非选项时，进行适配
   let options: AuditPackageOptions | undefined;
@@ -64,8 +53,8 @@ async function auditPackage(
       'onRender' in optionsOrCallbacks ||
       'onFinish' in optionsOrCallbacks)
   ) {
-    // 第二个参数是 processCallbacks
-    processCallbacks = optionsOrCallbacks as AuditPackageProcessHooks;
+    // 第二个参数是 processHooks
+    processHooks = optionsOrCallbacks as AuditPackageProcessHooks;
     options = defaultAuditPackageOptions;
   } else {
     options = optionsOrCallbacks as AuditPackageOptions | undefined;
@@ -78,7 +67,7 @@ async function auditPackage(
     options = defaultAuditPackageOptions;
   }
   const showLoading = !!options.showLoading;
-  const { onInit, onParseProject, onAudit, onRender, onFinish } = processCallbacks || {};
+  const { onInit, onParseProject, onAudit, onRender, onFinish } = processHooks || {};
 
   showLoading && Loading.start('初始化审计中');
   if (isFunction(onInit)) {
