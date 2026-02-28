@@ -10,9 +10,12 @@
     "build:core": "npm run build -w packages/wsz-auditor-core",
     "build:web": "npm run build -w packages/wsz-auditor-web",
     "build:mcp-server": "npm run build -w packages/wsz-auditor-mcp-server",
+    "build": "concurrently \"npm:build:*\"",
     "start:dev:core": "npm run start:dev -w packages/wsz-auditor-core",
     "start:core": "npm run start -w packages/wsz-auditor-core",
-    "start:web": "npm run start -w packages/wsz-auditor-web"
+    "start:web": "npm run start -w packages/wsz-auditor-web",
+    "cz": "czg",
+    "prepare": "husky"
   },
   "workspaces": [
     "packages/*"
@@ -22,7 +25,10 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
+    "commitizen": "^4.3.1",
     "concurrently": "^9.2.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
     "rimraf": "^6.1.3"
   }
 }
