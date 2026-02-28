@@ -17,7 +17,8 @@
   "editor.formatOnType": false, // 输入时格式化
   "editor.codeActionsOnSave": {
     // 保存时自动修复
-    "source.organizeImports": "never" // 删除无用 import
+    "source.organizeImports": "never", // 删除无用 import
+    "source.fixAll.oxc": "never"
   },
   "editor.bracketPairColorization.enabled": true, // 括号匹配
   "editor.guides.bracketPairs": true, // 括号匹配
