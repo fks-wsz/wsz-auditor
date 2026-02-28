@@ -14,7 +14,8 @@
     "start:dev:core": "npm run start:dev -w packages/wsz-auditor-core",
     "start:core": "npm run start -w packages/wsz-auditor-core",
     "start:web": "npm run start -w packages/wsz-auditor-web",
-    "cz": "czg",
+    "cz": "cz",
+    "cz:retry": "cz --retry",
     "prepare": "husky"
   },
   "workspaces": [
@@ -25,10 +26,13 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
+    "@commitlint/cli": "^20.4.2",
+    "@commitlint/config-conventional": "^20.4.2",
+    "@commitlint/cz-commitlint": "^20.4.1",
     "commitizen": "^4.3.1",
     "concurrently": "^9.2.1",
-    "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.1.7",
+    "inquirer": "^9.3.8",
     "rimraf": "^6.1.3"
   }
 }
