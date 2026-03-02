@@ -13,6 +13,10 @@ function getDirname(importMetaUrl: string) {
   return dirname(getFilename(importMetaUrl));
 }
 
+function getDirFromPath(path: string) {
+  return dirname(path);
+}
+
 function getAbsolutePath(filePath: string): string {
   if (isAbsolute(filePath)) {
     return filePath;
@@ -20,4 +24,4 @@ function getAbsolutePath(filePath: string): string {
   return resolve(getAppRootPath(), filePath);
 }
 
-export { getAppRootPath, getFilename, getDirname, getAbsolutePath };
+export { getAppRootPath, getFilename, getDirname, getAbsolutePath, getDirFromPath };

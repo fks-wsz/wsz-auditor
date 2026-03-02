@@ -1,17 +1,17 @@
-import { getAbsolutePath } from './path.js';
+import { getAbsolutePath, getDirFromPath } from './path.js';
 import { existsSync } from 'fs';
 import { readFile, writeFile, rm, mkdir } from 'fs/promises';
 import { BaseError } from '../error/index.js';
 
 import type { MakeDirectoryOptions, RmDirOptions } from 'fs';
 
-function isFileExist(filePath: string): boolean {
+function isExist(filePath: string): boolean {
   const absolutePath = getAbsolutePath(filePath);
   return existsSync(absolutePath);
 }
 
 async function getFileContent(filePath: string): Promise<string> {
-  if (!isFileExist(filePath)) return '';
+  if (!isExist(filePath)) return '';
   const absolutePath = getAbsolutePath(filePath);
   const content = await readFile(absolutePath, { encoding: 'utf-8' });
   return content;
@@ -19,6 +19,14 @@ async function getFileContent(filePath: string): Promise<string> {
 
 async function createFile(data: string, filePath: string) {
   const absolutePath = getAbsolutePath(filePath);
+  const absoluteDir = getDirFromPath(absolutePath);
+
+  if (isExist(absolutePath)) {
+    throw new BaseError('File', 'EXISTED', `创建时 ${absolutePath} 已存在`);
+  }
+  if (!isExist(absoluteDir)) {
+    await createDir(absoluteDir, { recursive: true });
+  }
   await writeFile(absolutePath, data, {
     encoding: 'utf-8',
   });
@@ -38,13 +46,13 @@ async function getJsonFileContent<T extends object = object>(filePath: string): 
 
 async function remove(target: string, options?: RmDirOptions) {
   const absolutePath = getAbsolutePath(target);
-  if (!isFileExist(absolutePath)) return;
+  if (!isExist(absolutePath)) return;
   await rm(absolutePath, options);
 }
 
 async function createDir(target: string, options?: MakeDirectoryOptions) {
   const absolutePath = getAbsolutePath(target);
-  if (isFileExist(absolutePath)) {
+  if (isExist(absolutePath)) {
     throw new BaseError('File', 'EXISTED', `创建时 ${target} 已存在`);
   }
   try {
@@ -55,4 +63,4 @@ async function createDir(target: string, options?: MakeDirectoryOptions) {
   return absolutePath;
 }
 
-export { isFileExist, getFileContent, createFile, createJsonFile, getJsonFileContent, remove, createDir };
+export { isExist, getFileContent, createFile, createJsonFile, getJsonFileContent, remove, createDir };

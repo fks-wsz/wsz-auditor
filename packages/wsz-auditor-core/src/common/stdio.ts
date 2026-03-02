@@ -94,7 +94,6 @@ export function question(prompt: string): Promise<string> {
   return new Promise((resolve) => {
     rl.question(prompt, (answer) => {
       rl.close();
-      process.stdin.unref();
       resolve(answer);
     });
   });

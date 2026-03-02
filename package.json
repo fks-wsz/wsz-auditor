@@ -1,7 +1,6 @@
 {
   "name": "wsz-auditor",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "dev:web": "npm run dev -w packages/wsz-auditor-web",
     "dev:web:server": "npm run dev:server -w packages/wsz-auditor-web",
@@ -13,6 +12,7 @@
     "build": "concurrently \"npm:build:*\"",
     "start:dev:core": "npm run start:dev -w packages/wsz-auditor-core",
     "start:core": "npm run start -w packages/wsz-auditor-core",
+    "start:dev:core:cli": "npm run start:dev:cli -w packages/wsz-auditor-core",
     "start:web": "npm run start -w packages/wsz-auditor-web",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",

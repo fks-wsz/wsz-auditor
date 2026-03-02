@@ -5,7 +5,7 @@ function isObject(target: unknown): target is Record<string, any> {
   return typeof target === 'object' && target !== null;
 }
 
-function isPlainObject(target: unknown): target is Record<keyof any, any> {
+function isPlainObject(target: unknown): target is Record<string, any> {
   if (!isObject(target)) {
     return false;
   }

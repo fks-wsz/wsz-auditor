@@ -5,13 +5,10 @@ import { generateLock } from './generateLock/index.js';
 import { audit } from './audit/index.js';
 import { render } from './render/index.js';
 import { createFile, remove, Loading, getAbsolutePath } from 'wsz-auditor-shared/node';
-import { assign, isPlainObject, isFunction } from 'wsz-auditor-shared/common';
-import { question, success } from './common/stdio.js';
-import { TEMP_DIR_PATH } from './common/path.js';
-import { join } from 'path';
+import { assign, isPlainObject, isFunction, hasOwnProperty } from 'wsz-auditor-shared/common';
 
 import type { NormalizedAuditResult } from './audit/types/index.js';
-import type { AuditPackageOptions, AuditPackageProcessHooks } from './types/main.js';
+import type { AuditPackageOptions, AuditPackageProcessHooks, InitializeAuditPackageOptions } from './types/main.js';
 
 export type { AuditPackageOptions, AuditPackageProcessHooks, NormalizedAuditResult };
 
@@ -19,6 +16,8 @@ const defaultAuditPackageOptions: AuditPackageOptions = {
   renderReport: null,
   showLoading: false,
 };
+
+const hooks: (keyof AuditPackageProcessHooks)[] = ['onInit', 'onParseProject', 'onAudit', 'onRender', 'onFinish'];
 
 async function auditPackage(
   projectPath: string,
@@ -44,32 +43,21 @@ async function auditPackage(
   processHooks?: AuditPackageProcessHooks,
 ) {
   // 参数归一化：当第二个参数是回调而非选项时，进行适配
-  let options: AuditPackageOptions | undefined;
+  const options = initOptions(optionsOrCallbacks);
+
   if (
-    isPlainObject(optionsOrCallbacks) &&
-    ('onInit' in optionsOrCallbacks ||
-      'onParseProject' in optionsOrCallbacks ||
-      'onAudit' in optionsOrCallbacks ||
-      'onRender' in optionsOrCallbacks ||
-      'onFinish' in optionsOrCallbacks)
+    !isPlainObject(processHooks) ||
+    hooks.every((hook) => !hasOwnProperty.call(processHooks, hook) || !isFunction(processHooks![hook]))
   ) {
-    // 第二个参数是 processHooks
-    processHooks = optionsOrCallbacks as AuditPackageProcessHooks;
-    options = defaultAuditPackageOptions;
-  } else {
-    options = optionsOrCallbacks as AuditPackageOptions | undefined;
+    // 对于无效的processHooks 传参 尝试从options 中获取processHooks
+    processHooks = assign({}, options.processHooks);
   }
+  options.processHooks = processHooks;
 
-  // 初始化
-  if (isPlainObject(options)) {
-    options = assign(options, defaultAuditPackageOptions);
-  } else {
-    options = defaultAuditPackageOptions;
-  }
   const showLoading = !!options.showLoading;
-  const { onInit, onParseProject, onAudit, onRender, onFinish } = processHooks || {};
+  const { onInit, onParseProject, onAudit, onRender, onFinish } = processHooks;
 
-  showLoading && Loading.start('初始化审计中');
+  if (showLoading) Loading.start('初始化审计中');
   if (isFunction(onInit)) {
     onInit();
   }
@@ -79,7 +67,7 @@ async function auditPackage(
   const workDir = await createWorkDir();
 
   // 解析项目，向工作目录添加package.json
-  showLoading && Loading.updateMessage('正在解析项目依赖树');
+  if (showLoading) Loading.updateMessage('正在解析项目依赖树');
   if (isFunction(onParseProject)) {
     onParseProject();
   }
@@ -89,7 +77,7 @@ async function auditPackage(
   await generateLock(workDir, packageJsonObj);
 
   // 对工作目录进行审计
-  showLoading && Loading.updateMessage('正在审计中');
+  if (showLoading) Loading.updateMessage('正在审计中');
   if (isFunction(onAudit)) {
     onAudit();
   }
@@ -99,7 +87,7 @@ async function auditPackage(
   if (isPlainObject(renderReport)) {
     const reportPath = getAbsolutePath(renderReport.path);
     // 渲染审计结果
-    showLoading && Loading.updateMessage('渲染审计结果中');
+    if (showLoading) Loading.updateMessage('渲染审计结果中');
     if (isFunction(onRender)) {
       onRender();
     }
@@ -108,28 +96,34 @@ async function auditPackage(
     if (typeof renderedResult === 'string' && renderedResult) {
       await createFile(renderedResult, reportPath);
     }
-    success('审计完成！结果已保存到 ' + reportPath);
   }
 
   // 结束
-  showLoading && Loading.stop();
+  if (showLoading) Loading.stop();
   if (isFunction(onFinish)) {
     onFinish(normalizedAuditRes);
   }
   return normalizedAuditRes;
 }
 
-async function auditPackageForCli() {
-  const inputProjectPath = await question('请输入待审计项目路径: ');
+function initOptions(inputOptions?: AuditPackageOptions | AuditPackageProcessHooks): InitializeAuditPackageOptions {
+  let options: InitializeAuditPackageOptions | null = null;
+  let processHooks: AuditPackageProcessHooks | null = null;
 
-  await auditPackage(inputProjectPath, {
-    renderReport: {
-      path: join(TEMP_DIR_PATH, 'result.md'),
-    },
-    showLoading: true,
-  });
+  if (
+    isPlainObject(inputOptions) &&
+    hooks.some((hook) => hasOwnProperty.call(inputOptions, hook) && (inputOptions as AuditPackageProcessHooks)[hook])
+  ) {
+    // 第二个参数是 processHooks
+    processHooks = inputOptions as AuditPackageProcessHooks;
+  } else {
+    options = inputOptions as AuditPackageOptions | null;
+  }
 
-  success('审计完成！结果已保存到 result.md\n');
+  options = assign({}, defaultAuditPackageOptions, options);
+  options.processHooks = processHooks;
+
+  return options;
 }
 
-export { auditPackage, auditPackageForCli };
+export { auditPackage };

@@ -20,11 +20,17 @@ const Url = {
   REQUIRE_PARSE_PACKAGE_JSON_METHOD_FROM_REPO_PARSER: 4,
   /** 无效的 GitHub URL */
   INVALID_GITHUB_URL: 5,
-};
+} as const;
+
+const User = {
+  /** 用户取消了操作 */
+  CANCEL_ACTION: 1,
+} as const;
 
 const E_CODE_RECORD = {
   File,
   Url,
+  User,
 };
 
 export default E_CODE_RECORD;

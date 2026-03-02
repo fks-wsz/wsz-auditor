@@ -26,6 +26,16 @@
       "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "type": "node"
+    },
+    {
+      "name": "auditor-cli",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/packages/wsz-auditor-core/dist/cli.js",
+      "skipFiles": ["<node_internals>/**"],
+      "args": ["--report-dir", "./rpt", "--report-name", "result.doc", "--loading"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
     }
   ]
 }

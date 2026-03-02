@@ -13,6 +13,10 @@ class BaseError<T extends EType> extends Error {
     this.name = type + 'Error';
     this.type = type;
   }
+
+  getFormattedMessage() {
+    return `[${this.name} ${this.code}] ${this.message}`;
+  }
 }
 
 export { BaseError };

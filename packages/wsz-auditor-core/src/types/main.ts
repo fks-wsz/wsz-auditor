@@ -15,4 +15,8 @@ interface AuditPackageOptions {
   showLoading: boolean;
 }
 
-export type { AuditPackageProcessHooks, AuditPackageOptions };
+interface InitializeAuditPackageOptions extends AuditPackageOptions {
+  processHooks?: AuditPackageProcessHooks | null;
+}
+
+export type { AuditPackageProcessHooks, AuditPackageOptions, InitializeAuditPackageOptions };
