@@ -36,16 +36,12 @@ exports.baseConfig = {
   },
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
+    plugins: [
+      new TsconfigPathsWebpackPlugin({
+        configFile: path.resolve('./tsconfig.web.json'),
+      }),
+    ],
   },
-  plugins: [
-    new TsconfigPathsWebpackPlugin({
-      configFile: path.resolve('./tsconfig.web.json'),
-    }),
-    new VueLoaderPlugin(),
-    new Webpack.DefinePlugin({
-      __DEV__,
-    }),
-    new MiniCssExtractPlugin(),
-  ],
+  plugins: [new VueLoaderPlugin(), new MiniCssExtractPlugin()],
   ...(__DEV__ ? { devtool: 'source-map' } : {}),
 };

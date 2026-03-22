@@ -16,7 +16,9 @@
     "prebuild": "npm run clean",
     "build": "dotenvx run -f .env.production -- concurrently \"npm:build:*\"",
     "start": "node ./dist/main.js",
-    "dev": "dotenvx run -f .env.development -- concurrently -k -n ssr-wp,api-wp,ssr,api -c blue,green,cyan,yellow \"npm:dev:server\" \"npm:dev:api-server\" \"npm:dev:ssr-nodemon\" \"npm:dev:api-nodemon\""
+    "predev": "npm run clean",
+    "dev": "dotenvx run -f .env.development -- concurrently -k -n ssr-wp,api-wp -c blue,green \"npm:dev:server\" \"npm:dev:api-server\"",
+    "start:dev": " concurrently -k -n ssr,api -c blue,green \"npm:dev:ssr-nodemon\" \"npm:dev:api-nodemon\""
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.52.0",
@@ -35,6 +37,7 @@
     "chokidar": "^5.0.0",
     "concurrently": "^9.2.1",
     "css-loader": "^6.10.0",
+    "http-proxy-middleware": "^3.0.5",
     "mini-css-extract-plugin": "^2.8.0",
     "nodemon": "^3.0.3",
     "null-loader": "^4.0.1",

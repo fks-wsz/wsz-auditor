@@ -88,8 +88,12 @@ function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: Packa
 
     return chains;
 
-    // 因上游依赖漏洞不一定会导致下游依赖漏洞产生，因此使用effect 字段向上搜索会遇到effect 为空现象，性能较差
-    // 这里使用via 字段自顶向下搜索
+    /**
+     * effect 字段向上搜索会遇到effect 为空现象, 具体见issue 与 npm/cli 源码
+     * 这里使用via 字段自顶向下搜索
+     * @see https://github.com/npm/cli/issues/4366
+     * @param pkg
+     */
     function getChainsBacktrack(pkg: string) {
       const targetVuln = auditResult.vulnerabilities[pkg];
       const via = targetVuln.via;

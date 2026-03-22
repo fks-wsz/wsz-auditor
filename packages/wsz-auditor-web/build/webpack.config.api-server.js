@@ -35,7 +35,7 @@ module.exports = merge(baseConfig, {
   externalsPresets: { node: true },
   plugins: [
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
+      __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
 });

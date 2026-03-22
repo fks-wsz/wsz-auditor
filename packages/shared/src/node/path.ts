@@ -21,7 +21,7 @@ function getAbsolutePath(filePath: string): string {
   if (isAbsolute(filePath)) {
     return filePath;
   }
-  return resolve(getAppRootPath(), filePath);
+  return resolve(filePath);
 }
 
 export { getAppRootPath, getFilename, getDirname, getAbsolutePath, getDirFromPath };

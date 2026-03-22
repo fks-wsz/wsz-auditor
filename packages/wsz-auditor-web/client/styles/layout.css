@@ -164,7 +164,7 @@ body {
 
 /* Audit Dashboard */
 .audit-dashboard {
-  animation: fadeIn 0.6s ease;
+  /* animation: fadeIn 0.6s ease; */
 }
 
 @keyframes fadeIn {
