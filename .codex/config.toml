@@ -1,0 +1,18 @@
+model = "gpt-5.4" # 模型
+
+approval_policy = "on-request" # 
+web_search = "cached" # 网络搜索模式
+model_reasoning_effort = "medium" # 思考推理等级
+personality = "pragmatic" # 沟通风格
+
+log_dir = "./.codex-log" # 日志目录
+
+[features]
+multi_agent = true # 启用子代理协作工具
+shell_snapshot = true # 快照 shell 环境，以加快重复命令的速度
+shell_tool = true # 启用默认的 shell 工具
+
+# shell 命令环境配置
+#[shell_environment_policy]
+# include_only = ["PATH", "HOME"]
+
