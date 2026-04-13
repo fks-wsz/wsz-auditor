@@ -57,7 +57,7 @@ async function auditPackage(
   const showLoading = !!options.showLoading;
   const { onInit, onParseProject, onAudit, onRender, onFinish } = processHooks;
 
-  if (showLoading) Loading.start('初始化审计中');
+  if (showLoading) Loading.start('Initializing audit');
   if (isFunction(onInit)) {
     onInit();
   }
@@ -67,7 +67,7 @@ async function auditPackage(
   const workDir = await createWorkDir();
 
   // 解析项目，向工作目录添加package.json
-  if (showLoading) Loading.updateMessage('正在解析项目依赖树');
+  if (showLoading) Loading.updateMessage('Resolving project dependency tree');
   if (isFunction(onParseProject)) {
     onParseProject();
   }
@@ -77,7 +77,7 @@ async function auditPackage(
   await generateLock(workDir, packageJsonObj);
 
   // 对工作目录进行审计
-  if (showLoading) Loading.updateMessage('正在审计中');
+  if (showLoading) Loading.updateMessage('Under audit');
   if (isFunction(onAudit)) {
     onAudit();
   }
@@ -87,7 +87,7 @@ async function auditPackage(
   if (isPlainObject(renderReport)) {
     const reportPath = getAbsolutePath(renderReport.path);
     // 渲染审计结果
-    if (showLoading) Loading.updateMessage('渲染审计结果中');
+    if (showLoading) Loading.updateMessage('Rendering audit results');
     if (isFunction(onRender)) {
       onRender();
     }

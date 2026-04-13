@@ -1,15 +1,15 @@
 <template>
   <div class="chart-section">
-    <h2 class="chart-section__title">漏洞分布图表</h2>
+    <h2 class="chart-section__title">Vulnerability Distribution</h2>
     <div class="chart-grid">
       <div class="chart-card glass-card">
-        <h3 class="chart-card__title">严重性占比</h3>
+        <h3 class="chart-card__title">Severity Breakdown</h3>
         <div class="chart-card__canvas-wrap">
           <canvas ref="doughnutCanvas"></canvas>
         </div>
       </div>
       <div class="chart-card glass-card">
-        <h3 class="chart-card__title">各级漏洞数量</h3>
+        <h3 class="chart-card__title">Vulnerabilities by Severity</h3>
         <div class="chart-card__canvas-wrap">
           <canvas ref="barCanvas"></canvas>
         </div>
@@ -34,7 +34,7 @@ import {
 
 Chart.register(ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Legend, DoughnutController, BarController);
 
-const SEVERITY_LABELS = ['严重 (Critical)', '高危 (High)', '中危 (Moderate)', '低危 (Low)'];
+const SEVERITY_LABELS = ['Critical', 'High', 'Moderate', 'Low'];
 const SEVERITY_KEYS = ['critical', 'high', 'moderate', 'low'] as const;
 const CSS_VAR_MAP: Record<string, string> = {
   critical: '--color-critical',
@@ -142,7 +142,7 @@ export default Vue.extend({
             labels: SEVERITY_LABELS,
             datasets: [
               {
-                label: '漏洞数量',
+                label: 'Vulnerability Count',
                 data,
                 backgroundColor: colors,
                 borderRadius: 6,
@@ -158,7 +158,7 @@ export default Vue.extend({
               legend: { display: false },
               tooltip: {
                 callbacks: {
-                  label: (ctx) => ` 数量: ${ctx.parsed.x}`,
+                  label: (ctx) => ` Count: ${ctx.parsed.x}`,
                 },
               },
             },

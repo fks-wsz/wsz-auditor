@@ -1,5 +1,5 @@
 <template>
-  <button class="return-home glass-card" aria-label="返回首页" title="返回首页" @click="onClickReturnHome">
+  <button class="return-home glass-card" aria-label="Return to home" title="Return to home" @click="onClickReturnHome">
     <span>🏠</span>
   </button>
 </template>

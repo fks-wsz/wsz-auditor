@@ -1,6 +1,6 @@
 <template>
   <div class="vuln-detail-list">
-    <h2 class="vuln-detail-list__title">漏洞详情</h2>
+    <h2 class="vuln-detail-list__title">Vulnerability Details</h2>
 
     <div v-for="severity in severityOrder" :key="severity" class="vuln-group">
       <template v-if="getItems(severity).length > 0">
@@ -9,7 +9,7 @@
           <span class="vuln-group__badge" :class="`severity-bg-${severity}`">
             {{ severityLabel[severity] }}
           </span>
-          <span class="vuln-group__count">{{ getItems(severity).length }} 个漏洞</span>
+          <span class="vuln-group__count">{{ getItems(severity).length }} vulnerabilities</span>
           <span class="vuln-group__arrow" :class="{ 'vuln-group__arrow--open': openGroups[severity] }">▾</span>
         </button>
 
@@ -39,7 +39,7 @@
                   >
                 </div>
                 <div v-if="item.chain && item.chain.length > 0" class="vuln-item__chain">
-                  <span class="vuln-item__chain-label">依赖链：</span>
+                  <span class="vuln-item__chain-label">Dependency Chain:</span>
                   <span class="vuln-item__chain-path">{{ item.chain.join(' → ') }}</span>
                 </div>
               </template>
@@ -119,10 +119,10 @@ export default Vue.extend({
       openGroups,
       severityOrder: ['critical', 'high', 'moderate', 'low'] as Severity[],
       severityLabel: {
-        critical: '严重 Critical',
-        high: '高危 High',
-        moderate: '中危 Moderate',
-        low: '低危 Low',
+        critical: 'Critical',
+        high: 'High',
+        moderate: 'Moderate',
+        low: 'Low',
       } as Record<Severity, string>,
     };
   },

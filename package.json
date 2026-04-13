@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "scripts": {
     "dev:web": "npm run dev -w packages/wsz-auditor-web",
-    "dev:web:server": "npm run dev:server -w packages/wsz-auditor-web",
     "dev:core": "npm run dev -w packages/wsz-auditor-core",
     "dev": "concurrently \"npm:dev:*\"",
     "build:core": "npm run build -w packages/wsz-auditor-core",

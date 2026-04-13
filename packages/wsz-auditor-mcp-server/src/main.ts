@@ -25,7 +25,6 @@ server.registerTool(
             })
             .nullable()
             .describe('审查报告的渲染选项，如果为null则不生成审查报告'),
-          showLoading: z.boolean().describe('是否在审查过程中显示加载状态, 用户通过cli调用推荐开启'),
         })
         .optional()
         .describe('审查选项'),

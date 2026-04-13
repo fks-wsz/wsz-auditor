@@ -15,13 +15,13 @@ const DEFAULT_REPORT_NAME = 'audit-report';
 
 function showHelp() {
   console.log(`
-用法: audit [选项]
+用法: audit [Options]
 
 选项:
-  --report-dir <path>  指定审计报告输出目录 (默认: 项目根目录)
-  --report-name <name> 指定审计报告文件名 (默认: audit-report)
-  --loading            审计过程中显示加载动画
-  -h, --help           显示帮助信息
+  --report-dir <path>  Specify the audit report output directory (default: project root directory)
+  --report-name <name> Specify the audit report file name (default: audit-report)
+  --loading            Show loading animation during audit process
+  -h, --help           Show help information
 `);
 }
 
@@ -44,7 +44,9 @@ async function preCheck({ args }: { args: UserArgs }) {
     const userReportPath = getAbsolutePath(join(userReportDir, (userReportName || DEFAULT_REPORT_NAME) + '.md'));
 
     if (isExist(userReportPath)) {
-      const shouldCover = await confirm(`指定的报告输出目录 ${userReportPath} 已存在，是否覆盖？`);
+      const shouldCover = await confirm(
+        `Specified report output directory ${userReportPath} already exists, whether to overwrite？`,
+      );
       if (shouldCover) {
         await remove(userReportPath, { recursive: true });
         info(`已删除 ${userReportPath}...`);
@@ -79,7 +81,7 @@ async function auditPackageForCli() {
     process.exit(0);
   }
 
-  const userProjectPath = await question('请输入待审计项目路径: ');
+  const userProjectPath = await question('Please enter the path of the project to be audited: ');
   const userReportDir = getArgValueFromArgv(args, '--report-dir');
   const userShowLoading = hasSymbolFromArgv(args, '--loading');
   const userReportName = getArgValueFromArgv(args, '--report-name');
@@ -104,7 +106,7 @@ async function auditPackageForCli() {
     showLoading,
   });
 
-  success(`审计结果已保存到 ${reportPath} 中`);
+  success(`Audit results have been saved to ${reportPath} `);
   process.stdin.destroy();
 }
 

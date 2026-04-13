@@ -1,8 +1,8 @@
 <template>
   <button
     class="theme-toggle glass-card"
-    :aria-label="'切换主题'"
-    :title="isDark ? '切换到亮色模式' : '切换到深色模式'"
+    :aria-label="'Toggle theme'"
+    :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
     @click="handleToggle">
     <span class="theme-toggle__icon">{{ isDark ? '🌙' : '☀️' }}</span>
   </button>

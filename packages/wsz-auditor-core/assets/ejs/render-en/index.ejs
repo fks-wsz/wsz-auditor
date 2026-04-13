@@ -1,0 +1,6 @@
+﻿# <%- packageJsonObj.name %> Audit Result
+<% if(audit.metadata.totalRecord.total) { %> 
+<%- include('./audit.ejs'); %> 
+<% } else { %>
+:tada: No vulnerabilities were found in your project's direct and indirect dependencies :)
+<% } %>

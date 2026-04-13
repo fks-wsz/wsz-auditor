@@ -1,0 +1,45 @@
+Your audited project has a total of **<%- audit.metadata.totalRecord.total %>** vulnerabilities.
+
+Among them:
+
+- **<%- desc.severityLevels.critical %> vulnerabilities**: **<%- audit.metadata.totalRecord.critical %>** in total
+- **<%- desc.severityLevels.high %> vulnerabilities**: **<%- audit.metadata.totalRecord.high %>** in total
+- **<%- desc.severityLevels.moderate %> vulnerabilities**: **<%- audit.metadata.totalRecord.moderate %>** in total
+- **<%- desc.severityLevels.low %> vulnerabilities**: **<%- audit.metadata.totalRecord.low %>** in total
+
+<% const directPkgs = audit.metadata.directPkgsTotalRecord; %>
+<% if (Object.keys(directPkgs).length > 0) { %>
+
+The vulnerability counts in these directly declared packages are:
+
+| Package | Critical | High | Moderate | Low |
+| --- | --- | --- | --- | --- |
+<% for (const pkgName in directPkgs) { if (Object.hasOwnProperty.call(directPkgs, pkgName)) {%>| **<%- pkgName %>** | <%- directPkgs[pkgName].critical %> | <%- directPkgs[pkgName].high %> | <%- directPkgs[pkgName].moderate %> | <%- directPkgs[pkgName].low %> |<% } %>
+<% } %>
+<% } %>
+
+
+> Vulnerability Severity Description:
+>
+> - **<%- desc.severityLevels.critical %>** vulnerabilities are considered extremely severe and should be fixed immediately.
+> - **<%- desc.severityLevels.high %>** vulnerabilities are considered severe and should be fixed as soon as possible.
+> - **<%- desc.severityLevels.moderate %>** vulnerabilities are considered moderately severe and can be fixed when time allows.
+> - **<%- desc.severityLevels.low %>** vulnerabilities are considered low severity and can be fixed based on your own needs.
+>
+> [Details](https://docs.npmjs.com/about-audit-reports#severity)
+
+<% if (audit.metadata.totalRecord.critical) { %>
+<%- include('./detail.ejs', {type:'critical'}); %>
+<% } %>
+<% if (audit.metadata.totalRecord.high) { %>
+<%- include('./detail.ejs', {type:'high'}); %>
+<% } %>
+<% if (audit.metadata.totalRecord.moderate) { %>
+<%- include('./detail.ejs', {type:'moderate'}); %>
+<% } %>
+<% if (audit.metadata.totalRecord.low) { %>
+<%- include('./detail.ejs', {type:'low'}); %> 
+<% } %>
+
+References:
+- [npm-audit-report](https://docs.npmjs.com/about-audit-reports)

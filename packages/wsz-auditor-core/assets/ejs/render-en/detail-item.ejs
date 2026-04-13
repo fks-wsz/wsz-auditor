@@ -1,0 +1,16 @@
+﻿---
+<% 
+const isMetavuln = item.problem && item.chain
+const advisory = isMetavuln ? item.problem : item
+const chain = isMetavuln ? item.chain : []
+%>
+### <%- advisory.title %>
+
+| Field | Details |
+| --- | --- |
+| **Source Package** | `<%- advisory.name %>` |
+<%if(isMetavuln){%>| **Dependency Chain** | `<%- chain.join(' -> ') %>` |<%}%>| **Affected Versions** | `<%- advisory.range %>` |
+| **CWE Classification** | <%- advisory.cwe.join(', ') %> |
+| **CVSS Score** | <%- advisory.cvss.score %> |
+| **CVSS Vector** | `<%- advisory.cvss.vectorString %>` |
+| **Details Link** | [<%- advisory.url %>](<%- advisory.url %>) |

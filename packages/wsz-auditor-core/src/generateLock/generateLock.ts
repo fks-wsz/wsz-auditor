@@ -12,7 +12,11 @@ async function writePackageJson(workDir: string, packageJsonObj: PackageJSON) {
   await createJsonFile(packageJsonPath, packageJsonObj);
 }
 
-// 创建 lock 文件
+/**
+ * create package-lock.json file at work dir
+ * @param workDir
+ * @returns
+ */
 async function createLockFile(workDir: string) {
   if (__DEV__) {
     if (__DEBUG__) {
@@ -23,7 +27,7 @@ async function createLockFile(workDir: string) {
     }
   }
   const cmd = `npm install --package-lock-only --force`;
-  await runCommand(cmd, workDir); // 在工作目录中执行命令
+  await runCommand(cmd, workDir); // Execute command in working directory
 }
 
 /**

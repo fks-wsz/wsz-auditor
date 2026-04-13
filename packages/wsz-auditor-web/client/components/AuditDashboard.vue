@@ -18,11 +18,11 @@
             v-model="inputUrl"
             class="input-bar__input"
             type="text"
-            placeholder="输入项目路径或仓库链接…"
+            placeholder="Enter project path or repository URL..."
             :disabled="isLoading"
             @keydown.enter="startAudit" />
           <button class="input-bar__btn" :disabled="isLoading || !inputUrl.trim()" @click="startAudit">
-            <span v-if="!isLoading">审查</span>
+            <span v-if="!isLoading">Audit</span>
             <span v-else class="loading-spinner">⟳</span>
           </button>
         </div>
@@ -36,23 +36,23 @@
         <div class="summary-cards">
           <div class="summary-card glass-card">
             <div class="summary-card__value">{{ totalRecord.total }}</div>
-            <div class="summary-card__label">总漏洞</div>
+            <div class="summary-card__label">Total Vulnerabilities</div>
           </div>
           <div class="summary-card glass-card severity-critical">
             <div class="summary-card__value">{{ totalRecord.critical }}</div>
-            <div class="summary-card__label">严重</div>
+            <div class="summary-card__label">Critical</div>
           </div>
           <div class="summary-card glass-card severity-high">
             <div class="summary-card__value">{{ totalRecord.high }}</div>
-            <div class="summary-card__label">高危</div>
+            <div class="summary-card__label">High</div>
           </div>
           <div class="summary-card glass-card severity-moderate">
             <div class="summary-card__value">{{ totalRecord.moderate }}</div>
-            <div class="summary-card__label">中危</div>
+            <div class="summary-card__label">Moderate</div>
           </div>
           <div class="summary-card glass-card severity-low">
             <div class="summary-card__value">{{ totalRecord.low }}</div>
-            <div class="summary-card__label">低危</div>
+            <div class="summary-card__label">Low</div>
           </div>
         </div>
 
@@ -122,7 +122,7 @@ export default Vue.extend({
       this.hasStarted = true;
       this.isLoading = true;
       this.isDone = false;
-      this.statusText = '准备连接…';
+      this.statusText = 'Connecting...';
 
       const url = `/api/audit-stream?url=${encodeURIComponent(this.inputUrl.trim())}`;
       this.eventSource = new EventSource(url);
@@ -139,7 +139,7 @@ export default Vue.extend({
           const data = JSON.parse(e.data);
           setState({ auditResult: data.result });
         } catch (_) {}
-        this.statusText = '完成！';
+        this.statusText = 'Completed!';
         this.isDone = true;
         this.isLoading = false;
         if (this.eventSource) {
@@ -148,8 +148,31 @@ export default Vue.extend({
         }
       });
 
-      this.eventSource.onerror = () => {
-        this.statusText = '连接出错，请稍后重试';
+      this.eventSource.addEventListener('error', (e: Event) => {
+        let message = 'Audit failed, please try again later';
+        if (e instanceof MessageEvent) {
+          try {
+            const data = JSON.parse(e.data);
+            message = data.message || message;
+          } catch (_) {}
+        }
+        this.statusText = message;
+        this.isLoading = false;
+        if (this.eventSource) {
+          this.eventSource.close();
+          this.eventSource = null;
+        }
+      });
+
+      this.eventSource.onerror = (e: Event) => {
+        let message = 'Connection error, please try again later';
+        if (e instanceof MessageEvent) {
+          try {
+            const data = JSON.parse(e.data);
+            message = data.message || message;
+          } catch (_) {}
+        }
+        this.statusText = message;
         this.isLoading = false;
         if (this.eventSource) {
           this.eventSource.close();

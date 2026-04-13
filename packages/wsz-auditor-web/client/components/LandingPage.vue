@@ -7,16 +7,17 @@
         <h1 class="landing-title">WSZ-Auditor2</h1>
 
         <!-- 副标题 -->
-        <h2 class="landing-subtitle">智能项目依赖安全审查工具</h2>
+        <h2 class="landing-subtitle">Intelligent Dependency Security Auditor</h2>
 
         <!-- 描述文字 -->
         <p class="landing-description">
-          基于 Node.js 与 npm 构建的安全依赖审查工具，集成 MCP Server 与可视化界面，支持
-          依赖链全面梳理与风险识别，帮助开发者快速定位潜在漏洞，提升供应链安全治理效率。
+          A dependency security auditing tool built on Node.js and npm, integrated with an MCP Server and a
+          visualization interface. It supports full dependency chain analysis and risk identification to help
+          developers quickly locate potential vulnerabilities and improve software supply chain security.
         </p>
 
         <!-- 开始按钮 -->
-        <button class="landing-btn" @click="handleStart"> 开始-&gt; </button>
+        <button class="landing-btn" @click="handleStart"> Start-&gt; </button>
       </div>
     </div>
   </div>

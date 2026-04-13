@@ -7,7 +7,7 @@
       </span>
     </div>
     <div class="package-card__body">
-      <p class="package-card__count">{{ totalProblems }} 个漏洞</p>
+      <p class="package-card__count">{{ totalProblems }} vulnerabilities</p>
       <div class="package-card__versions">
         <!-- <div v-for="pkg in packages" :key="pkg.name" class="version-item">
           <span class="version-item__name">{{ pkg.name }}</span>
