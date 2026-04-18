@@ -5,7 +5,7 @@ import { TEST_LOCK_FILE_PATH } from '../common/path.js';
 
 import type { PackageJSON } from '../audit/types/index.js';
 
-// 写入 package.json
+// Write package.json
 async function writePackageJson(workDir: string, packageJsonObj: PackageJSON) {
   const packageJsonPath = join(workDir, 'package.json');
   fs.mkdirSync(dirname(packageJsonPath), { recursive: true });
@@ -31,13 +31,13 @@ async function createLockFile(workDir: string) {
 }
 
 /**
- * 根据package.json 生成package-lock.json
- * @param {string} workDir 工作目录
- * @param {Object} packageJsonObj package.json对象
+ * Generate package-lock.json based on package.json
+ * @param {string} workDir Working directory
+ * @param {Object} packageJsonObj package.json object
  */
 export async function generateLock(workDir: string, packageJsonObj: PackageJSON) {
-  // 1. 将 package.json 写入工作目录
+  // 1. Write package.json to working directory
   await writePackageJson(workDir, packageJsonObj);
-  // 2. 生成 lock 文件
+  // 2. Generate lock file
   await createLockFile(workDir);
 }

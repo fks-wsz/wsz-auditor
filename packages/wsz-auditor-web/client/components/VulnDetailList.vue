@@ -4,7 +4,7 @@
 
     <div v-for="severity in severityOrder" :key="severity" class="vuln-group">
       <template v-if="getItems(severity).length > 0">
-        <!-- 分组标题（可折叠） -->
+        <!-- Group title (collapsible) -->
         <button class="vuln-group__header" :class="`vuln-group__header--${severity}`" @click="toggleGroup(severity)">
           <span class="vuln-group__badge" :class="`severity-bg-${severity}`">
             {{ severityLabel[severity] }}
@@ -13,7 +13,7 @@
           <span class="vuln-group__arrow" :class="{ 'vuln-group__arrow--open': openGroups[severity] }">▾</span>
         </button>
 
-        <!-- 漏洞列表 -->
+        <!-- Vulnerability list -->
         <transition name="accordion">
           <div v-if="openGroups[severity]" class="vuln-group__body">
             <div v-for="(item, idx) in getItems(severity)" :key="idx" class="vuln-item glass-card">
@@ -155,7 +155,7 @@ export default Vue.extend({
   color: var(--color-text-primary);
 }
 
-/* 分组 */
+/* Group */
 .vuln-group {
   margin-bottom: var(--spacing-md);
   border-radius: var(--radius-md);
@@ -182,7 +182,7 @@ export default Vue.extend({
   background: var(--color-bg-secondary);
 }
 
-/* 分组标题左侧彩色竖线 */
+/* Colorful vertical line on the left side of group title */
 .vuln-group__header--critical {
   border-left: 4px solid var(--color-critical);
 }
@@ -213,7 +213,7 @@ export default Vue.extend({
   transform: rotate(180deg);
 }
 
-/* 严重性徽标 */
+/* Severity badge */
 .vuln-group__badge {
   padding: 0.2rem 0.75rem;
   border-radius: var(--radius-sm);
@@ -239,28 +239,17 @@ export default Vue.extend({
   color: #333;
 }
 
-/* 展开动画 */
+/* Expand animation */
 .accordion-enter-active,
 .accordion-leave-active {
-  transition: opacity var(--transition-base), transform var(--transition-base);
-  overflow: hidden;
-}
 
 .accordion-enter,
 .accordion-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
 
-/* 漏洞分组内容 */
+/* Vulnerability group content */
 .vuln-group__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) 0;
-}
 
-/* 单条漏洞卡片 */
+/* Single vulnerability card */
 .vuln-item {
   padding: var(--spacing-sm) var(--spacing-md);
   display: flex;
@@ -340,7 +329,7 @@ export default Vue.extend({
   opacity: 0.75;
 }
 
-/* 依赖链 */
+/* Dependency chain */
 .vuln-item__chain {
   font-size: 0.8rem;
   color: var(--color-text-muted);

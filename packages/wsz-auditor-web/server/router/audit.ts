@@ -11,7 +11,7 @@ router.get(
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
-    res.setHeader('X-Accel-Buffering', 'no'); // 关键：禁用 Nginx 缓冲
+    res.setHeader('X-Accel-Buffering', 'no'); // Critical: disable Nginx buffering
     res.flushHeaders();
 
     const sendEvent = (type: 'progress' | 'done' | 'error', data: object) => {
@@ -20,6 +20,7 @@ router.get(
     };
 
     const target = req.query.url as string;
+    console.log(process.cwd());
     try {
       await auditPackage(target, {
         onInit() {
@@ -46,7 +47,7 @@ router.get(
       sendEvent('error', { message });
       res.end();
     }
-    // 客户端断开时清理资源并终止连接
+    // Clean up resources and terminate connection when client disconnects
     req.on('close', () => {
       res.end();
     });

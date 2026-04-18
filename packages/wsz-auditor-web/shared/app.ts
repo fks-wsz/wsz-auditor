@@ -3,7 +3,7 @@ import App from '../client/App.vue';
 import { setState } from './store';
 
 export function createApp(context?: any) {
-  // 从 SSR context 初始化状态
+  // Initialize state from SSR context
   if (context && context.state) {
     setState(context.state);
   }

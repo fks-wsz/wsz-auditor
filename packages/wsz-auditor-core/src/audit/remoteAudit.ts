@@ -2,8 +2,8 @@
 
 // export async function remoteAudit(packageName, pacakgeVersion) {
 //   const body = {
-//     name: 'example-audit', // 项目名字随便写
-//     version: '1.0.0', // 项目的版本，随便写
+//     name: 'example-audit', // Project name can be anything
+//     version: '1.0.0', // Project version, can be anything
 //     requires: {
 //       [packageName]: pacakgeVersion,
 //     },

@@ -1,25 +1,25 @@
 import { parseProject } from '../index.js';
 import { resolve } from 'path';
 
-// 测试本地项目解析
+// Test local project parsing
 async function testLocalProject() {
   const localProjectPath = resolve('../test/local-1');
   try {
     const packageJson = await parseProject(localProjectPath);
-    console.log('本地项目解析成功:', packageJson);
+    console.log('Local project parsing succeeded:', packageJson);
   } catch (error) {
-    console.error('本地项目解析失败:', error);
+    console.error('Local project parsing failed:', error);
   }
 }
 
-// 测试远程项目解析
+// Test remote project parsing
 // async function testRemoteProject() {
 //   const remoteProjectUrl = 'https://github.com/webpack/webpack';
 //   try {
 //     const packageJson = await parseProject(remoteProjectUrl);
-//     console.log('远程项目解析成功:', packageJson);
+//     console.log('Remote project parsing succeeded:', packageJson);
 //   } catch (error) {
-//     console.error('远程项目解析失败:', error);
+//     console.error('Remote project parsing failed:', error);
 //   }
 // }
 

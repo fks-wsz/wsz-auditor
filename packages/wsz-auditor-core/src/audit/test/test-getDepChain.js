@@ -10,4 +10,4 @@ const globalNodeMap = {
 const nodeA = globalNodeMap['A'];
 
 const chains = getDepChains(nodeA, globalNodeMap);
-console.log(chains); // 输出所有依赖链
+console.log(chains); // Output all dependency chains

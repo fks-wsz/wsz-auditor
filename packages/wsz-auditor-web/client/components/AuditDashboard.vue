@@ -1,8 +1,8 @@
 <template>
   <div class="audit-dashboard">
-    <!-- 顶部交互区域 -->
+    <!-- Top interaction area -->
     <div class="hero-area" :class="{ 'hero-area--started': hasStarted, 'hero-area--done': isDone }">
-      <!-- 进度文字层（提交后显示，位于输入框上方） -->
+      <!-- Progress text layer (shown after submission, above the input) -->
       <transition name="fade-slide">
         <div v-if="hasStarted" class="status-area">
           <transition name="fade-slide" mode="out-in">
@@ -11,7 +11,7 @@
         </div>
       </transition>
 
-      <!-- 输入层（始终显示，提交后下移） -->
+      <!-- Input layer (always shown, moves down after submission) -->
       <div class="input-bar" :class="{ 'input-bar--shifted': hasStarted }">
         <div class="input-bar__inner glass-card">
           <input
@@ -29,10 +29,10 @@
       </div>
     </div>
 
-    <!-- 结果区域（done 后淡入） -->
+    <!-- Result area (fade in after done) -->
     <transition name="result-fade">
       <div v-if="isDone" class="result-area">
-        <!-- 统计卡片 -->
+        <!-- Summary cards -->
         <div class="summary-cards">
           <div class="summary-card glass-card">
             <div class="summary-card__value">{{ totalRecord.total }}</div>
@@ -56,10 +56,10 @@
           </div>
         </div>
 
-        <!-- 图表区域 -->
+        <!-- Chart area -->
         <AuditSummaryChart v-if="totalRecord.total > 0" :total-record="totalRecord" />
 
-        <!-- 漏洞详情列表 -->
+        <!-- Vulnerability details list -->
         <VulnDetailList
           v-if="state.auditResult && state.auditResult.vulnSortBySeverity"
           :vuln-sort-by-severity="state.auditResult.vulnSortBySeverity" />
@@ -185,7 +185,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-/* ---- 顶部交互区域 ---- */
+/* ---- Top interaction area ---- */
 .hero-area {
   position: fixed;
   inset: 0;
@@ -195,7 +195,7 @@ export default Vue.extend({
   justify-content: center;
   gap: var(--spacing-sm);
   z-index: 10;
-  /* 不阻断底层鼠标事件，子元素单独开启 */
+  /* Do not block underlying mouse events, child elements enable separately */
   pointer-events: none;
 }
 
@@ -203,12 +203,12 @@ export default Vue.extend({
   pointer-events: auto;
 }
 
-/* 提交后（审计进行中）：保持垂直居中 */
+/* After submission (audit in progress): keep vertically centered */
 .hero-area--started {
   justify-content: center;
 }
 
-/* 审计完成后：退出 fixed，回到文档流，过渡到顶部 */
+/* After audit completed: exit fixed, return to document flow, transition to top */
 .hero-area--done {
   position: relative;
   inset: auto;
@@ -220,7 +220,7 @@ export default Vue.extend({
   transition: padding-top var(--transition-slow);
 }
 
-/* 输入条 */
+/* Input bar */
 .input-bar {
   width: 100%;
   max-width: 680px;
@@ -275,52 +275,21 @@ export default Vue.extend({
   cursor: not-allowed;
 }
 
-/* Loading 旋转 */
+/* Loading spin */
 .loading-spinner {
-  display: inline-block;
-  animation: spin 0.8s linear infinite;
-}
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* 进度文字 */
+/* Status text */
 .status-area {
-  width: 100%;
-  text-align: center;
-}
 
-.status-text {
-  font-size: 3.5rem;
-  font-weight: 700;
-  line-height: 1.15;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.02em;
-}
-
-/* 进度文字过渡：fade-slide */
+/* Status text transition: fade-slide */
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
 
 .fade-slide-enter {
-  opacity: 0;
-  transform: translateY(-16px);
-}
 
 .fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(16px);
-}
 
-/* 结果区域淡入：result-fade */
+/* Result area fade in: result-fade */
 .result-fade-enter-active {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }

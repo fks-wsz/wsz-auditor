@@ -11,7 +11,7 @@
       <div class="package-card__versions">
         <!-- <div v-for="pkg in packages" :key="pkg.name" class="version-item">
           <span class="version-item__name">{{ pkg.name }}</span>
-          <span class="version-item__problems">{{ pkg.problems?.length || 0 }} 个问题</span>
+          <span class="version-item__problems">{{ pkg.problems?.length || 0 }} issues</span>
         </div> -->
       </div>
     </div>

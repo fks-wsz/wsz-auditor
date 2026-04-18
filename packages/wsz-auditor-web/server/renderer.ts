@@ -9,7 +9,7 @@ import { DIST_PATH, PUBLIC_PATH } from '../shared/path';
 let renderer: null | BundleRenderer = null;
 
 /**
- * 初始化 Vue SSR 渲染器
+ * Initialize Vue SSR renderer
  */
 export async function initRenderer() {
   if (renderer) return renderer;
@@ -38,7 +38,7 @@ export function initRendererDevOnly({ clientManifest, serverBundle, templateStr 
 }
 
 /**
- * 渲染页面
+ * Render page
  */
 export async function renderPage(res: Response, context: RenderContext) {
   if (!renderer) {

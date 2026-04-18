@@ -2,18 +2,18 @@ import { createApp } from '../shared/app';
 import { initTheme } from '../shared/store';
 import './styles/main.css';
 
-// 获取服务端注入的初始状态
+// Get initial state injected from server
 declare global {
   interface Window {
     __INITIAL_STATE__: any;
   }
 }
 
-// 初始化主题
+// Initialize theme
 initTheme();
 
-// 创建应用实例
+// Create app instance
 const { app } = createApp(window.__INITIAL_STATE__);
 
-// 挂载应用（客户端水合）
+// Mount app (client hydration)
 app.$mount('#app');

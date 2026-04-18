@@ -1,7 +1,7 @@
 class Loading {
   private static readonly frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
   private static nextFrameIndex = 0;
-  private static message: string = '加载中';
+  private static message: string = 'Loading';
   private static isRendering: boolean = false;
   private static interval: NodeJS.Timeout | null = null;
 
@@ -32,8 +32,8 @@ class Loading {
     }
     this.isRendering = false;
     this.nextFrameIndex = 0;
-    this.message = '加载中';
-    process.stdout.write('\r\x1b[K'); // 清除当前行
+    this.message = 'Loading';
+    process.stdout.write('\r\x1b[K'); // Clear current line
   }
 
   private static renderFrame(message?: string) {

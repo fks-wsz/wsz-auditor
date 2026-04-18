@@ -93,7 +93,7 @@ export default Vue.extend({
       const data = this.getData();
       const borderColor = getCssVar('--color-border') || 'rgba(0,0,0,0.08)';
 
-      // --- 甜甜圈图 ---
+      // --- Doughnut chart ---
       const dCtx = (this.$refs.doughnutCanvas as HTMLCanvasElement).getContext('2d');
       if (dCtx) {
         this.doughnutChart = new Chart(dCtx, {
@@ -133,7 +133,7 @@ export default Vue.extend({
         });
       }
 
-      // --- 横向条形图 ---
+      // --- Horizontal bar chart ---
       const bCtx = (this.$refs.barCanvas as HTMLCanvasElement).getContext('2d');
       if (bCtx) {
         this.barChart = new Chart(bCtx, {

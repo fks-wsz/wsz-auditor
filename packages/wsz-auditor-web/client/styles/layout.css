@@ -57,7 +57,7 @@ body {
   transform: translateY(0) scale(0.95);
 }
 
-/* 返回首页 */
+/* Return to home */
 .return-home {
   position: fixed;
   top: var(--spacing-lg);

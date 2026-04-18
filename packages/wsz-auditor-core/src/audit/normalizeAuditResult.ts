@@ -14,8 +14,8 @@ const SEVERITIES: Severity[] = ['critical', 'high', 'moderate', 'low'];
 
 /**
  * @todo
- * 1. 从package.json 出发, 遍历声明的所有包
- * 2. 对于每一个声明包, 记录其name, 综合漏洞等级, 自身漏洞, 间接漏洞(需要漏洞链条, 漏洞详情, 漏洞等级)
+ * 1. Start from package.json, traverse all declared packages
+ * 2. For each declared package, record its name, comprehensive vulnerability level, own vulnerabilities, indirect vulnerabilities (need vulnerability chain, vulnerability details, vulnerability level)
  */
 
 function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: PackageJSON) {
@@ -49,10 +49,10 @@ function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: Packa
 
     for (let i = 0, e = via.length; i < e; ++i) {
       if (typeof via[i] === 'object') {
-        // 包本身问题
+        // Package's own issues
         curPkgSelfVuln.push(via[i] as Advisory);
       } else {
-        // 上游依赖包问题
+        // Upstream dependency package issues
         curPkgViaPkg.push(via[i] as string);
       }
     }
@@ -76,7 +76,7 @@ function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: Packa
       moderate: [],
       low: [],
     };
-    const curPath: string[] = [pkgName]; // 记录搜索路径
+    const curPath: string[] = [pkgName]; // Track search path
 
     for (let i = 0; i < viaPkgs.length; ++i) {
       const viaPkgName = viaPkgs[i];
@@ -89,8 +89,8 @@ function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: Packa
     return chains;
 
     /**
-     * effect 字段向上搜索会遇到effect 为空现象, 具体见issue 与 npm/cli 源码
-     * 这里使用via 字段自顶向下搜索
+     * Searching upward with the effect field encounters empty effect phenomenon, see issue and npm/cli source code
+     * Here we use via field for top-down search
      * @see https://github.com/npm/cli/issues/4366
      * @param pkg
      */
@@ -109,9 +109,9 @@ function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: Packa
       }
 
       if (selfProblems.length) {
-        // 依赖自身漏洞
+        // Dependency's own vulnerability
         for (let i = 0, e = selfProblems.length; i < e; ++i) {
-          // TODO: 目前有重复, 但目标不需要去重, 但需要漏洞对象自身
+          // TODO: There are duplicates currently, but the target doesn't need deduplication, just need the vulnerability object itself
           const vulnSeverity = selfProblems[i].severity as Severity;
           if (SEVERITIES.includes(vulnSeverity)) {
             (chains![vulnSeverity] ??= []).push({
@@ -133,9 +133,9 @@ function _normalizeVulnerabilities(auditResult: NpmAuditJSON, packageJson: Packa
 }
 
 /**
- * 处理规范化审计结果元数据
- * @param normalizeAuditResult - 规范化化审查结果
- * @returns 携带元数据的规范审计结果
+ * Process normalized audit result metadata
+ * @param normalizeAuditResult - Normalized audit result
+ * @returns Normalized audit result with metadata
  */
 function calculateMetadata(normalizedAuditResult: NormalizedAuditResult): NormalizedAuditResult['metadata'] {
   const vulnerabilities = normalizedAuditResult.vulnerabilities;
@@ -155,7 +155,7 @@ function calculateMetadata(normalizedAuditResult: NormalizedAuditResult): Normal
     const pkgList = vulnerabilities[severity] ?? [];
 
     for (const pkg of pkgList) {
-      // 初始化该包在 directPkgsTotalRecord 中的计数器（如果不存在）
+      // Initialize counter for this package in directPkgsTotalRecord (if it doesn't exist)
       if (!metadata.directPkgsTotalRecord[pkg.name]) {
         metadata.directPkgsTotalRecord[pkg.name] = {
           critical: 0,
@@ -171,7 +171,7 @@ function calculateMetadata(normalizedAuditResult: NormalizedAuditResult): Normal
         };
       }
 
-      // 统计 problems：每个 Advisory 对象自带 severity，按其自身等级归类
+      // Count problems: each Advisory object has its own severity, categorize by its own level
       for (const problem of pkg.problems) {
         const problemSeverity = problem.severity as Severity;
         if (SEVERITIES.includes(problemSeverity)) {
@@ -180,7 +180,7 @@ function calculateMetadata(normalizedAuditResult: NormalizedAuditResult): Normal
         }
       }
 
-      // 统计 childrenProblems：以分组键（childSeverity）为准累加数组长度
+      // Count childrenProblems: accumulate array length grouped by childSeverity
       if (pkg.childrenProblems) {
         for (const childSeverity of SEVERITIES) {
           const count = pkg.childrenProblems[childSeverity]?.length ?? 0;
@@ -211,14 +211,14 @@ function resolveVulnerabilitiesBySeverity(
   for (const severity of SEVERITIES) {
     const pkgList = vulnerabilities[severity] ?? [];
     for (const pkg of pkgList) {
-      // 处理包自身漏洞 problems
+      // Handle package's own vulnerability problems
       for (const problem of pkg.problems) {
         const problemSeverity = problem.severity as Severity;
         if (SEVERITIES.includes(problemSeverity)) {
           result![problemSeverity].push(problem);
         }
       }
-      // 处理间接依赖漏洞 childrenProblems
+      // Handle indirect dependency vulnerability childrenProblems
       if (pkg.childrenProblems) {
         for (const childSeverity of SEVERITIES) {
           const problems = pkg.childrenProblems[childSeverity] ?? [];

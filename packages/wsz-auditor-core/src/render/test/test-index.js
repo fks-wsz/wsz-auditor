@@ -16,12 +16,12 @@ async function test() {
   console.log('ok');
 }
 
-// 监听文件变化
+// Watch for file changes
 fs.watch(templatePath, (eventType) => {
   if (eventType === 'change') {
-    console.log(`模板文件发生了变化，重新运行测试函数`);
-    test(); // 触发函数
+    console.log(`Template file has changed, re-running test function`);
+    test(); // Trigger function
   }
 });
 
-console.log(`已开始监听文件: ${templatePath}`);
+console.log(`Started watching file: ${templatePath}`);

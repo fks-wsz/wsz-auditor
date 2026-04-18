@@ -18,20 +18,20 @@ export interface PackageJSON {
     node?: string;
     npm?: string;
   };
-  // 现代包常用的导出字段
+  // Modern package commonly used export fields
   exports?: string | Record<string, string | Record<string, string>>;
 }
 
 /** @description npm audit json */
 export type NpmAuditJSON = ReturnType<AuditReport['toJSON']>;
 
-/** 漏洞等级 */
+/** Vulnerability severity level */
 export type Severity = 'low' | 'moderate' | 'high' | 'critical';
 
 /** npm audit vulnerability via */
 export type VulnVia = (string | Advisory)[];
 
-/** 补充信息后的 Vulnerability 对象 */
+/** Vulnerability object after supplementing information */
 export type AdvancedVulnJson = Omit<VulnJson, 'via'> & { via: VulnVia };
 
 export interface AdvisoryWithChain {
@@ -39,7 +39,7 @@ export interface AdvisoryWithChain {
   problem: Advisory;
 }
 
-/** @description 规范化后的漏洞包信息 */
+/** @description Normalized vulnerability package information */
 export interface NormalizedPackageInfo {
   name: string;
   problems: Advisory[];
@@ -49,7 +49,7 @@ export interface NormalizedPackageInfo {
   childrenPkg?: string[];
 }
 
-/** @description 规范化后的审计结果 */
+/** @description Normalized audit result */
 export interface NormalizedAuditResult {
   vulnerabilities: Record<string, NormalizedPackageInfo[]>;
   // summary?: {

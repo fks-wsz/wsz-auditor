@@ -32,9 +32,9 @@ module.exports = merge(baseConfig, {
   },
   target: 'node',
   externals: nodeExternals({
-    // 指向 monorepo 根目录的 node_modules（所有 hoisted 依赖所在位置）
+    // Point to monorepo root directory node_modules (where all hoisted dependencies are located)
     modulesDir: ROOT_NODE_MODULES_DIR,
-    // 同时包含本地 node_modules（存放因版本冲突未被 hoist 的包）
+    // Also include local node_modules (packages that are not hoisted due to version conflicts)
     additionalModuleDirs: [PKG_NODE_MODULES_DIR],
   }),
   externalsPresets: { node: true },

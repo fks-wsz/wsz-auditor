@@ -10,12 +10,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const API_PORT = process.env.API_PORT || 3001;
 
-// 静态资源服务
+// Static resource service
 app.use(express.static(PUBLIC_PATH));
 app.use(express.static(DIST_PATH));
 
 if (__DEV__) {
-  // 开发环境：将 /api/* 请求代理到独立的 API 进程，避免修改 API 路由时重启 SSR 进程
+  // Development environment: proxy /api/* requests to separate API process to avoid restarting SSR process when modifying API routes
   app.use(
     '/api',
     createProxyMiddleware({
@@ -24,7 +24,7 @@ if (__DEV__) {
     }),
   );
 } else {
-  // 生产环境：直接挂载 API 路由
+  // Production environment: directly mount API routes
   const auditRouter = require('./router/audit').default;
   app.use(auditRouter);
 }
@@ -35,10 +35,10 @@ if (__DEV__) {
   devServerReadyPromise = setupDevServer(app, join(PUBLIC_PATH, 'index.template.html'), (devServerContext) => {
     initRendererDevOnly(devServerContext);
   });
-} else {
-  // 初始化渲染器
-  initRenderer();
-}
+  } else {
+    // Initialize renderer
+    initRenderer();
+  }
 
 export interface RenderContext {
   url: string;
@@ -47,13 +47,13 @@ export interface RenderContext {
 }
 
 // await auditPackage(getAbsolutePath('../../../test/local-2'), getAbsolutePath('result.md'));
-// SSR 路由
+// SSR routes
 app.get('/home', async (req, res) => {
   const data = {};
 
   const context: RenderContext = {
     url: req.url,
-    title: 'NPM 依赖安全审计分析',
+    title: 'NPM Dependency Security Audit Analysis',
     state: data,
   };
   if (__DEV__) {

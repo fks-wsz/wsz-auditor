@@ -12,22 +12,22 @@ const server = new McpServer({
 server.registerTool(
   'audit-package',
   {
-    title: '项目安全审查工具',
+    title: 'Project Security Auditor',
     description:
-      '审查本地或远程的前端或nodejs项目中的依赖安全问题，包含直接依赖和间接依赖，返回格式化后的审查报告结果，并生成可直接使用的markdown格式审查报告文件',
+      'Audit dependency security issues in local or remote frontend or nodejs projects, including direct and indirect dependencies, return formatted audit report results, and generate markdown format audit report files for direct use',
     inputSchema: z.object({
-      targetPath: z.string().describe('要审查项目的路径，可以是相对路径或绝对路径或github仓库地址'),
+      targetPath: z.string().describe('Path of the project to be audited, can be relative path, absolute path or github repository URL'),
       options: z
         .object({
           renderReport: z
             .object({
-              path: z.string().describe('审查报告的输出路径'),
+              path: z.string().describe('Absolute output path for the audit report'),
             })
             .nullable()
-            .describe('审查报告的渲染选项，如果为null则不生成审查报告'),
+            .describe('Render options for the audit report, if null the report will not be generated'),
         })
         .optional()
-        .describe('审查选项'),
+        .describe('Audit options'),
     }),
   },
   async ({ targetPath, options }) => {

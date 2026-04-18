@@ -22,7 +22,7 @@ async function createFile(data: string, filePath: string) {
   const absoluteDir = getDirFromPath(absolutePath);
 
   if (isExist(absolutePath)) {
-    throw new BaseError('File', 'EXISTED', `创建时 ${absolutePath} 已存在`);
+    throw new BaseError('File', 'EXISTED', `${absolutePath} already exists during creation`);
   }
   if (!isExist(absoluteDir)) {
     await createDir(absoluteDir, { recursive: true });
@@ -53,12 +53,12 @@ async function remove(target: string, options?: RmDirOptions) {
 async function createDir(target: string, options?: MakeDirectoryOptions) {
   const absolutePath = getAbsolutePath(target);
   if (isExist(absolutePath)) {
-    throw new BaseError('File', 'EXISTED', `创建时 ${target} 已存在`);
+    throw new BaseError('File', 'EXISTED', `${target} already exists during creation`);
   }
   try {
     await mkdir(absolutePath, options);
   } catch (error) {
-    throw new BaseError('File', 'WRITE_FAIL', `创建目录 ${target} 失败: ${(error as Error).message}`);
+    throw new BaseError('File', 'WRITE_FAIL', `Failed to create directory ${target}: ${(error as Error).message}`);
   }
   return absolutePath;
 }

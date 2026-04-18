@@ -4,17 +4,17 @@ import { RenderData, RenderDesc } from './types/index.js';
 
 const desc: RenderDesc = {
   severityLevels: {
-    low: '低危',
-    moderate: '中危',
-    high: '高危',
-    critical: '严重',
+    low: 'Low',
+    moderate: 'Moderate',
+    high: 'High',
+    critical: 'Critical',
   },
 };
 
 /**
- * 讲auditResult渲染为markdown格式的字符串
- * @param {object} normalizedAuditRes 规范化的审计结果
- * @param {object} packageJsonObj 包的package.json内容
+ * Render auditResult as markdown string
+ * @param {object} normalizedAuditRes Normalized audit result
+ * @param {object} packageJsonObj Package package.json content
  */
 export async function render(normalizedAuditRes: NormalizedAuditResult, packageJsonObj: PackageJSON) {
   const data: RenderData = {

@@ -15,9 +15,9 @@ const DEFAULT_REPORT_NAME = 'audit-report';
 
 function showHelp() {
   console.log(`
-用法: audit [Options]
+Usage: audit [Options]
 
-选项:
+Options:
   --report-dir <path>  Specify the audit report output directory (default: project root directory)
   --report-name <name> Specify the audit report file name (default: audit-report)
   --loading            Show loading animation during audit process
@@ -49,9 +49,13 @@ async function preCheck({ args }: { args: UserArgs }) {
       );
       if (shouldCover) {
         await remove(userReportPath, { recursive: true });
-        info(`已删除 ${userReportPath}...`);
+        info(`${userReportPath} deleted...`);
       } else {
-        throw new BaseError('User', 'CANCEL_ACTION', `用户取消覆盖 ${userReportPath}，请重新指定报告输出目录`);
+        throw new BaseError(
+          'User',
+          'CANCEL_ACTION',
+          `The user cancels overwriting ${userReportPath}, please re-specify the report output directory`,
+        );
       }
     }
   }
@@ -73,7 +77,7 @@ function resolveArgs(args: UserArgs) {
 }
 
 async function auditPackageForCli() {
-  // 解析命令行参数
+  // Parse command line arguments
   const args = process.argv.slice(2);
 
   if (args.includes('-h') || args.includes('--help')) {

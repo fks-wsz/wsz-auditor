@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <!-- 动画背景 -->
+    <!-- Animated background -->
     <div class="animated-background">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
     </div>
 
-    <!-- 主题切换按钮 -->
+    <!-- Theme toggle button -->
     <ThemeToggle />
     <ReturnHome />
 
-    <!-- 主内容 -->
+    <!-- Main content -->
     <main class="main-content">
       <LandingPage v-if="state.currentView === 'home'" />
       <AuditDashboard v-else />
@@ -62,8 +62,8 @@ export default Vue.extend({
 </script>
 
 <style>
-/* 
- * 注意：这里不使用 scoped，因为这些是全局样式
- * 动画和背景样式从 animations.css 和 layout.css 导入
+/*
+ * Note: scoped is not used here as these are global styles
+ * Animation and background styles are imported from animations.css and layout.css
  */
 </style>

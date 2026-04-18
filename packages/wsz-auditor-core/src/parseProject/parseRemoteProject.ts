@@ -15,22 +15,22 @@ type RepoHostname = keyof typeof REPO_TYPE_HOST_MAP;
 type RepoType = (typeof SUPPORTED_REPO_TYPES)[number];
 
 /**
- * 通过 projectURI 判断代码来源平台
- * @param {string} projectURI - 远程仓库 URL
- * @returns {string} 平台名称，如 'github'、'gitlab'、'gitee'、'bitbucket'
- * @throws {Error} 如果 URL 格式不合法或平台不支持
+ * Determine the code source platform through projectURI
+ * @param {string} projectURI - Remote repository URL
+ * @returns {string} Platform name, such as 'github', 'gitlab', 'gitee', 'bitbucket'
+ * @throws {Error} Throws error if URL format is invalid or platform is not supported
  */
 function getProjectSourceRepoType(projectURI: string): RepoType {
   let hostname: string;
   try {
     hostname = new URL(projectURI).hostname;
   } catch {
-    throw new BaseError('Url', 'INVALID_URL', `无效的 URL: ${projectURI}`);
+    throw new BaseError('Url', 'INVALID_URL', `Invalid URL: ${projectURI}`);
   }
 
   const platform = REPO_TYPE_HOST_MAP[hostname as RepoHostname];
   if (!platform) {
-    throw new BaseError('Url', 'PROJECT_REPO_NOT_SUPPORT', `不支持的仓库地址: ${projectURI}`);
+    throw new BaseError('Url', 'PROJECT_REPO_NOT_SUPPORT', `Unsupported repository address: ${projectURI}`);
   }
 
   return platform;
@@ -45,7 +45,7 @@ abstract class BaseRepoParser {
 }
 
 /**
- * github 仓库解析器
+ * Github repository parser
  */
 class GithubRepoParser extends BaseRepoParser {
   constructor() {
@@ -56,22 +56,22 @@ class GithubRepoParser extends BaseRepoParser {
     try {
       const parsedUrl = new URL(projectURI);
 
-      // 确保是 github.com
+      // Ensure it's github.com
       if (parsedUrl.hostname !== 'github.com') {
-        throw new BaseError('Url', 'INVALID_GITHUB_URL', `无效的 GitHub URL: ${projectURI}`);
+        throw new BaseError('Url', 'INVALID_GITHUB_URL', `Invalid GitHub URL: ${projectURI}`);
       }
 
-      // 获取路径并去除空字符串（如开头的 /）
+      // Get path and filter out empty strings (like leading /)
       const parts = parsedUrl.pathname.split('/').filter(Boolean);
 
-      // 至少需要 owner 和 repo 两段
+      // At least need owner and repo (two segments)
       if (parts.length < 2) {
-        throw new BaseError('Url', 'INVALID_GITHUB_URL', `无效的 GitHub URL: ${projectURI}`);
+        throw new BaseError('Url', 'INVALID_GITHUB_URL', `Invalid GitHub URL: ${projectURI}`);
       }
 
       const [owner, repo, ...restPath] = parts;
 
-      // 构造 path：如果有后续路径，则以 '/' 开头拼接；否则为空字符串
+      // Construct path: if there are subsequent paths, concatenate with '/'; otherwise empty string
       const publicPath = restPath.length > 0 ? '/' + restPath.join('/') : '';
 
       return { owner, repo, publicPath };
@@ -102,22 +102,22 @@ class GithubRepoParser extends BaseRepoParser {
 }
 
 /**
- * 仓库解析器工厂
- * @param repoType 仓库类型
- * @returns 仓库解析器
+ * Repository parser factory
+ * @param repoType Repository type
+ * @returns Repository parser
  */
 function repoParserFactory(repoType: RepoType): BaseRepoParser {
   if (repoType === 'github') {
     return new GithubRepoParser();
   }
-  throw new BaseError('Url', 'REQUIRE_REPO_PARSER', `仓库 ${repoType} 需要对应的解析器，但当前未实现`);
+  throw new BaseError('Url', 'REQUIRE_REPO_PARSER', `Repository ${repoType} requires a corresponding parser, but it is not implemented yet`);
 }
 
 /**
- * 获取仓库项目package.json地址
- * @param repoType 仓库类型
- * @param projectURI 仓库地址
- * @returns 仓库package.json 地址
+ * Get package.json address of the repository project
+ * @param repoType Repository type
+ * @param projectURI Repository address
+ * @returns Repository package.json address
  */
 function getPackageJsonUrlFromRepo(repoType: RepoType, projectURI: string): Promise<string> {
   const repoParser = repoParserFactory(repoType);
@@ -127,20 +127,20 @@ function getPackageJsonUrlFromRepo(repoType: RepoType, projectURI: string): Prom
   throw new BaseError(
     'Url',
     'REQUIRE_PARSE_PACKAGE_JSON_METHOD_FROM_REPO_PARSER',
-    `仓库 ${repoType} 需要对应的 package.json 解析，当前未实现`,
+    `Repository ${repoType} requires corresponding package.json parsing, currently not implemented`,
   );
 }
 
 /**
- * 获取远程仓库项目的 package.json 文件
- * @param projectURI 项目仓库地址
+ * Get package.json file of remote repository project
+ * @param projectURI Project repository address
  * @returns
  */
 async function parseRemoteProject(projectURI: string): Promise<PackageJSON> {
   const repoType = getProjectSourceRepoType(projectURI);
   const packageJsonUrl = await getPackageJsonUrlFromRepo(repoType, projectURI);
   if (__DEV__) {
-    info('package.json 地址：', packageJsonUrl);
+    info('package.json address:', packageJsonUrl);
   }
   return await fetch(packageJsonUrl).then((resp) => resp.json() as Promise<PackageJSON>);
 }

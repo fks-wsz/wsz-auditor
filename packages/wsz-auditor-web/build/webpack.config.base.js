@@ -18,7 +18,7 @@ exports.baseConfig = {
   stats: 'minimal',
   output: {
     devtoolModuleFilenameTemplate: (info) => {
-      // 将路径统一为正斜杠，去掉 webpack 添加的前缀
+      // Normalize paths to forward slashes, remove webpack prefix
       return `file:///${info.absoluteResourcePath.replace(/\\/g, '/')}`;
     },
   },

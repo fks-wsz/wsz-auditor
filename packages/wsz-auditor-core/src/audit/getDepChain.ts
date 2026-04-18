@@ -2,45 +2,45 @@ import { VulnJson } from '@npmcli/arborist';
 import { NpmAuditJSON } from './types/index.js';
 
 /**
- * @description 给定图结构中的一个节点，获取从该节点的依赖节点出发一直走到终点，一共走出的所有链条
- * 注意：图结构中可能存在环，遇到环时，环所在的节点直接作为终点即可
+ * @description Given a node in a graph structure, get all chains from the dependency nodes of that node to the end point
+ * Note: There may be cycles in the graph structure, when encountering a cycle, the node where the cycle is located can be used as the end point directly
  */
 export function getDepChains(node: VulnJson, globalNodeMap: NpmAuditJSON['vulnerabilities']) {
-  // 存储所有找到的依赖链
+  // Store all found dependency chains
   const chains: string[][] = [];
 
-  // 当前DFS路径（用于检测环）
+  // Current DFS path (used for cycle detection)
   const currentPath: string[] = [];
 
   /**
-   * 深度优先搜索函数
+   * Depth-first search function
    */
   function dfs(currentNode: VulnJson) {
     if (!currentNode) return;
 
-    // 检查是否形成环（当前节点已在路径中）
+    // Check if a cycle is formed (current node is already in the path)
     if (currentPath.includes(currentNode.name)) {
       chains.push([...currentPath]);
       return;
     }
 
-    // 将当前节点加入路径
+    // Add current node to path
     currentPath.unshift(currentNode.name);
 
-    // 如果没有依赖节点，说明到达终点
+    // If there are no dependency nodes, it means the end point is reached
     if (!currentNode.effects || currentNode.effects.length === 0) {
       chains.push([...currentPath]);
     } else {
-      // 递归处理所有依赖节点
+      // Recursively process all dependency nodes
       for (const effect of currentNode.effects) {
         dfs(globalNodeMap[effect]);
       }
     }
-    // 回溯：移除当前节点
+    // Backtrack: remove current node
     currentPath.shift();
   }
 
-  // 从给定节点开始DFS
+  // Start DFS from the given node
   dfs(node);
 
   return chains;

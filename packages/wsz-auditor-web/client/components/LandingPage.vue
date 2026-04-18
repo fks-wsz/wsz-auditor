@@ -1,22 +1,22 @@
 <template>
   <div class="landing-page">
     <div class="landing-card">
-      <!-- 装饰性圆角边框 -->
+      <!-- Decorative rounded border -->
       <div class="landing-card__inner">
-        <!-- 品牌标题 -->
-        <h1 class="landing-title">WSZ-Auditor2</h1>
+        <!-- Brand title -->
+        <h1 class="landing-title">WSZ-Auditor</h1>
 
-        <!-- 副标题 -->
+        <!-- Subtitle -->
         <h2 class="landing-subtitle">Intelligent Dependency Security Auditor</h2>
 
-        <!-- 描述文字 -->
+        <!-- Description -->
         <p class="landing-description">
           A dependency security auditing tool built on Node.js and npm, integrated with an MCP Server and a
-          visualization interface. It supports full dependency chain analysis and risk identification to help
-          developers quickly locate potential vulnerabilities and improve software supply chain security.
+          visualization interface. It supports full dependency chain analysis and risk identification to help developers
+          quickly locate potential vulnerabilities and improve software supply chain security.
         </p>
 
-        <!-- 开始按钮 -->
+        <!-- Start button -->
         <button class="landing-btn" @click="handleStart"> Start-&gt; </button>
       </div>
     </div>
@@ -61,39 +61,16 @@ export default Vue.extend({
   text-align: center;
 }
 
-/* 手写风格品牌标题 */
+/* Handwritten style brand title */
 .landing-title {
-  font-family: 'Caveat', 'Dancing Script', cursive;
-  font-size: 5rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  margin-bottom: 0;
-}
 
-/* 渐变色副标题 */
+/* Gradient subtitle */
 .landing-subtitle {
-  font-size: 3rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #f87171, #fb923c);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1.3;
-  margin-bottom: 0;
-}
 
-/* 描述段落 */
+/* Description paragraph */
 .landing-description {
-  font-size: 1.2rem;
-  color: var(--color-text-secondary);
-  line-height: 1.8;
-  max-width: 800px;
-  margin-bottom: 0;
-}
 
-/* 开始按钮 */
+/* Start button */
 .landing-btn {
   display: inline-flex;
   align-items: center;
@@ -135,7 +112,7 @@ export default Vue.extend({
   }
 }
 
-/* 响应式适配 */
+/* Responsive adaptation */
 @media (max-width: 768px) {
   .landing-card__inner {
     padding: 2.5rem 1.5rem;
